@@ -5,7 +5,8 @@
 \title{transform a field, handle boundary conditions, return energy}
 \usage{
 fld2dt(fld, Nx = NULL, Ny = NULL, J = NULL, mode = NULL,
-  correct = "b_bp", verbose = FALSE, boundary = "pad")
+  correct = NULL, verbose = FALSE, boundary = "pad",
+  fb1 = near_sym_b_bp, fb2 = qshift_b_bp)
 }
 \description{
 transform a field, handle boundary conditions, return energy

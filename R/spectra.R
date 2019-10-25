@@ -6,10 +6,12 @@ get_en <- function( pyr, correct="fast" ){
         for( j in 1:nrow( pyr ) ) pyr[j,,,] <- pyr[j,,,]/(2**j)
     }
     if( correct=="b_bp" ){
-        N <- 2**( nrow( pyr ) + 3 )
-        infile <- paste0( "/user/s6sebusc/wavelets_verification/new_wavelets/Amats/near_sym_b_bp", N, ".rdata" )
-        load( infile )
-        pyr <- biascor( pyr, A )
+        N   <- ncol( pyr )
+        pyr <- biascor( pyr, A_b_bp[[ paste0( "N", N ) ]] )
+    }
+    if( correct=="b" ){
+        N   <- ncol( pyr )
+        pyr <- biascor( pyr, A_b[[ paste0( "N", N ) ]] )
     }
     return( pyr )
 }
@@ -28,11 +30,18 @@ biascor <- function( en, a ){
 
 #' transform a field, handle boundary conditions, return energy
 #' @export
-fld2dt <- function( fld, Nx=NULL, Ny=NULL, J=NULL, mode=NULL, correct="b_bp", verbose=FALSE, boundary="pad" ){
+fld2dt <- function( fld, Nx=NULL, Ny=NULL, J=NULL, mode=NULL, correct=NULL, verbose=FALSE, boundary="pad", fb1=near_sym_b_bp, fb2=qshift_b_bp ){
     
     if( is.null( Nx ) ) Nx <- 2**ceiling( log2( max( dim( fld ) )  ) )
     if( is.null( Ny ) ) Ny <- Nx
     if( is.null( J ) ) J <- log2( min(Nx,Ny) ) - 3
+    if( is.null(correct) ){
+        if( length( fb1 ) > 4   ){
+            correct <- "b_bp"
+        }else{
+            correct <- "b"
+        }
+    }  
     
     if( boundary=="mirror" ){
         bc  <- put_in_mirror( fld, N=Nx, Ny=Ny )
@@ -43,7 +52,7 @@ fld2dt <- function( fld, Nx=NULL, Ny=NULL, J=NULL, mode=NULL, correct="b_bp", ve
     fld <- bc$res
     
     res <- dtcwt( fld, dec=FALSE, mode=mode, J=J, 
-                  fb1=near_sym_b_bp, fb2=qshift_b_bp,
+                  fb1=fb1, fb2=fb2,
                   verbose=verbose )
     res <- get_en( res, correct=correct )[ ,bc$px,bc$py, ]
     
