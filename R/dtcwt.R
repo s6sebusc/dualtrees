@@ -4,9 +4,28 @@
 #' @param mat the real matrix we wish to transform
 #' @param fb1 A list of analysis filter coefficients for the first level. Currently only near_sym_b and near_sym_b_bp are implemented
 #' @param fb2 A list of analysis filter coefficients for all following levels. Currently only qshift_b and qshift_b_bp are implemented
-#' @param J  number of levels for the decomposition. Defaults to log2( min(Nx,Ny) ) in the decimated case and log2( min(Nx,Ny) ) - 3 otherwise
+#' @param J  number of levels for the decomposition. Defaults to \code{log2( min(Nx,Ny) )} in the decimated case and \code{log2( min(Nx,Ny) ) - 3} otherwise
 #' @param dec whether or not the decimated transform is desired
-#' @param mode how to perform the convolutions, either "direct" or "FFT"
+#' @param mode how to perform the convolutions, either "direct" (default if dec=TRUE) or "FFT" (default if dec=FALSE)
+#' @param verbose if TRUE, the function tells you which level it is working on
+#' @param boundaries how to handle the internal boundary conditions of the convolutions, has no effect if mode="direct"
+#' @return if dec=TRUE a list of complex coefficient fields, otherwise a complex J * Nx * Ny * 6 array.
+#' 
+#' @details This is the 2D complex dualtree wavelet transform as described by Selesnick et al 2005. It consists of four discerete wavelet transform trees, generated from two filter banks a and b by applying one set of filters to the rows and the same ot the other to the columns. 
+#' In the decimated case (dec=TRUE), each convolution is followed by a downsampling, meaining that the size of the six coefficient fields is cut in half at each level. In this case, it is supposedly efficient to use direct convolutions (mode="direct"), the boundary conditions of which are steered by the boundaries-argument. If dec=FALSE, direct convolutions may be slow and you should use mode="FFT". In that case, you need to handle the boundary conditions externally  (enter a nice 2^N x 2^M matrix) and the maximum level J is smaller than log2(N) due to the construction of the filters via an 'algorithme a trous'. 
+#'
+#' @note Periodic and reflective boundaries are both implemented for the decimated case, but only the periodic boundaries are actually invertible at this point.
+#' 
+#' @seealso \code{\link{idtcwt}}
+#'
+#' @references Selesnick, I.W., R.G. Baraniuk, and N.C. Kingsbury. “The Dual-Tree Complex Wavelet Transform.” IEEE Signal Processing Magazine 22, no. 6 (November 2005): 123–51. \url{https://doi.org/10.1109/MSP.2005.1550194}.
+#' @examples
+#' dt <- dtcwt( boys )
+#' par( mfrow=c(2,3), mar=rep(2,4) )
+#' for( j in 1:6 ){
+#'     image( boys, col=grey.colors(32,0,1) )
+#'     contour( Mod( dt[[3]][ ,,j ] )**2, add=TRUE, col="green" )
+#' } 
 #' @export
 dtcwt <- function( mat, fb1=near_sym_b, fb2=qshift_b, J=NULL, dec=TRUE, mode=NULL, verbose=TRUE, boundaries="periodic" ){
 
@@ -18,9 +37,16 @@ dtcwt <- function( mat, fb1=near_sym_b, fb2=qshift_b, J=NULL, dec=TRUE, mode=NUL
     sym1 <- length( fb1 ) > 4 
     sym2 <- length( fb2 ) > 8 
     
-    # prepare dimensions, make sure we have an appropriate square
+    # prepare dimensions, make sure we have an appropriate rectangle
     Nx <- nrow( mat )
     Ny <- ncol( mat )
+    
+    if( !dec ){
+        if( max( abs( log2(Nx) - round( log2(Nx) ) ),
+                 abs( log2(Ny) - round( log2(Ny) ) ) ) > 1e-6 ){ 
+            stop( "input dimensions must be 2^N x 2^M" )
+        }
+    }
     
     # find the maximum level
     if( is.null( J ) ){

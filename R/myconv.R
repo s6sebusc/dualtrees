@@ -1,23 +1,29 @@
-#' Convolve the columns of a matrix in a varitey of ways
+#' Column-convolutions
 #'
 #' This function convolves the columns of a matrix mat with a filter fil.
 #' @param mat a matrix
 #' @param fil the filter to convolve the columns with
+#' @param dec if \code{TRUE}, every second row is discarded after the convolution
+#' @param mode how to actually do the convolutions, must be either \code{"direct"} or \code{"FFT"}
+#' @param odd if \code{TRUE}, the first row is discarded, otherwise the second row is.
+#' @param how to handle the boundaries, does nothing if \code{mode="FFT"}
 #' @keywords convolution, wavelets
-#' @export
+#' @details This functions does all of the actual computations inside the wavelet transform. The direct mode uses \code{filter(...)} and can handle any field size you like. It is supposedly faster when the filters are short, i.e., in the decimated case. The FFT-version really only works when the input dimensions are whole powers of two and the filter is not longer than the columns of the matrix.
 #' @examples
-#' require( fields )
-#' data( lennon )
-#' my_conv( lennon, c(-1,1) )
-
+#' dboysdy <- my_conv( boys, c(-1,1), dec=FALSE )
+#' dboysdx <- t( my_conv( t(boys), c(-1,1), dec=FALSE ) )
+#' par( mfrow=c(1,2) )
+#' image( dboysdx, col=gray.colors(32) )
+#' image( dboysdy, col=gray.colors(32) )
+#' @export
 my_conv <- function( mat, fil, dec=TRUE, mode="direct", odd=FALSE, boundaries="periodic" ){
     nx  <- nrow(mat)
-    
     if( !( mode %in% c( "FFT", "direct" ) ) ){ 
         stop( paste0( "unknown mode '", mode, "', chose 'FFT' or 'direct', friend." ) )
     }
     
     if( mode == "FFT" ){
+        if( length( fil ) > nrow( mat ) ) stop( "filter too long, try mode = 'direct'" )
         res <- array( dim=dim(mat), data=NA )
         l   <- length(fil)
         lh  <- floor(l/2)

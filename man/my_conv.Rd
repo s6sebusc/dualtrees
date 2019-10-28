@@ -2,7 +2,7 @@
 % Please edit documentation in R/myconv.R
 \name{my_conv}
 \alias{my_conv}
-\title{Convolve the columns of a matrix in a varitey of ways}
+\title{Column-convolutions}
 \usage{
 my_conv(mat, fil, dec = TRUE, mode = "direct", odd = FALSE,
   boundaries = "periodic")
@@ -11,14 +11,27 @@ my_conv(mat, fil, dec = TRUE, mode = "direct", odd = FALSE,
 \item{mat}{a matrix}
 
 \item{fil}{the filter to convolve the columns with}
+
+\item{dec}{if \code{TRUE}, every second row is discarded after the convolution}
+
+\item{mode}{how to actually do the convolutions, must be either \code{"direct"} or \code{"FFT"}}
+
+\item{odd}{if \code{TRUE}, the first row is discarded, otherwise the second row is.}
+
+\item{how}{to handle the boundaries, does nothing if \code{mode="FFT"}}
 }
 \description{
 This function convolves the columns of a matrix mat with a filter fil.
 }
+\details{
+This functions does all of the actual computations inside the wavelet transform. The direct mode uses \code{filter(...)} and can handle any field size you like. It is supposedly faster when the filters are short, i.e., in the decimated case. The FFT-version really only works when the input dimensions are whole powers of two and the filter is not longer than the columns of the matrix.
+}
 \examples{
-require( fields )
-data( lennon )
-my_conv( lennon, c(-1,1) )
+dboysdy <- my_conv( boys, c(-1,1), dec=FALSE )
+dboysdx <- t( my_conv( t(boys), c(-1,1), dec=FALSE ) )
+par( mfrow=c(1,2) )
+image( dboysdx, col=gray.colors(32) )
+image( dboysdy, col=gray.colors(32) )
 }
 \keyword{convolution,}
 \keyword{wavelets}
