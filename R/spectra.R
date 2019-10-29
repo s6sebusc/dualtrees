@@ -11,17 +11,15 @@
 #'
 #' @seealso \code{\link{A}}
 #' @export
-get_en <- function( pyr, correct="fast" ){
+get_en <- function( pyr, correct="fast", N=ncol( pyr ) ){
     pyr <- Mod( pyr )**2
     if( correct=="fast" ){
         for( j in 1:nrow( pyr ) ) pyr[j,,,] <- pyr[j,,,]/(2**j)
     }
     if( correct=="b_bp" ){
-        N   <- ncol( pyr )
         pyr <- biascor( pyr, A_b_bp[[ paste0( "N", N ) ]] )
     }
     if( correct=="b" ){
-        N   <- ncol( pyr )
         pyr <- biascor( pyr, A_b[[ paste0( "N", N ) ]] )
     }
     return( pyr )
@@ -108,7 +106,7 @@ fld2dt <- function( fld, Nx=NULL, Ny=NULL, J=NULL, mode=NULL, correct=NULL, verb
     res <- dtcwt( fld, dec=FALSE, mode=mode, J=J, 
                   fb1=fb1, fb2=fb2,
                   verbose=verbose )
-    res <- get_en( res[ ,bc$px,bc$py, ], correct=correct )
+    res <- get_en( res[ ,bc$px,bc$py, ], correct=correct, N=2**(J+3) )
     
     return( res )
 }
@@ -128,13 +126,17 @@ fld2dt <- function( fld, Nx=NULL, Ny=NULL, J=NULL, mode=NULL, correct=NULL, verb
 #' @export
 dt2cen <- function( pyr ){
     if( length( dim(pyr) ) == 2 ) pyr <- array( dim=c( nrow(pyr),1,1,ncol(pyr) ), data=pyr )
-    pyr <- aperm( pyr, c(2,3,1,4) )
     pyr[pyr<0] <- 0
-    nx  <- as.integer( nrow( pyr ) )
-    ny  <- as.integer( ncol( pyr ) )
-    nl  <- as.integer( dim(pyr)[3] )
-    res <- array( dim=c( nx, ny, 3 ), data=0 ) 
-    res <- .Fortran( "getcen", pyramid=pyr, nx=nx, ny=ny, nl=nl, res=res, PACKAGE="dualtrees" )$res
+    nx  <- as.integer( dim(pyr)[2] )
+    ny  <- as.integer( dim(pyr)[3] )
+    nl  <- as.integer( dim(pyr)[1] )
+    tmp <- array( dim=c( nx, ny, 3 ), data=0 ) 
+    tmp <- .Fortran( "getcen", pyramid=pyr, nx=nx, ny=ny, nl=nl, res=tmp, PACKAGE="dualtrees" )$res
+    res <- tmp
+    res[,,1]   <- sqrt( tmp[,,1]**2 + tmp[,,2]**2 )
+    phi        <- ( atan2( tmp[,,2],tmp[,,1] )*180/pi )/2 + 15
+    phi[phi<0] <- 180 + phi[phi<0]
+    res[,,2]   <- phi
     return( res )
 }
 

@@ -6,8 +6,8 @@
 #' @return an object of class \code{bc_field}
 #' @details \code{pad} pads the fields with a constant value on all sides, be careful what you pick here. \code{put_in_mirror} reflects the input at all edges (with repeated end samples), \code{period_bc} simply repeats the input periodically. In any case, you can retrieve the initial area via bc$res[ bc$px, bc$py ]. 
 #' @examples
-#' bc <- pad( boys, N=300 )
-#' image( bc$res, col=grey.colors(32) )
+#' bc <- put_in_mirror( boys, N=300 )
+#' plot( bc )
 #' print( range( bc$res[ bc$px, bc$py ] - boys ) )
 #' @name boundaries
 NULL

@@ -1,5 +1,5 @@
 #' @export
-plot.bc_field <- function( bc, lcol="darkgreen", col=gray.colors(32,0,1), lty=2, ... ){
+plot.bc_field <- function( bc, lcol="green", col=gray.colors(32,0,1), lty=2, ... ){
     im  <- bc$res
     nx  <- length(bc$px)
     ny  <- length(bc$py)
@@ -29,20 +29,24 @@ plot.bc_field <- function( bc, lcol="darkgreen", col=gray.colors(32,0,1), lty=2,
 #' uvplot( uv, z=boys )
 #' @seealso \code{\link{cen2uv}}
 #' @export
-uvplot <- function( uv, z=NULL , col="green", zcol=gray.colors(32,0,1), n=42, f=1, code=0, length=.05 ){
+uvplot <- function(  uv, z=NULL , x=NULL, y=NULL, col="green", zcol=gray.colors(32,0,1), n=42, f=1, code=0, length=.05 ){
     nx <- nrow( uv )
     ny <- ncol( uv )
     if( is.null(z) ) z <- sqrt( uv[,,1]**2 + uv[,,2]**2 )
     if( ( nrow(z) != nx ) | (ncol(z) != ny) ){ 
         stop( "dimensions of uv an z don't match." )
     }
-    f <- f*.05*min(nx,ny)
+    if( is.null(x) ) x <- seq( 0, 1, , nx )
+    if( is.null(y) ) y <- seq( 0, 1, , ny )
     
-    x  <- seq( 1,nx,,n )
-    y  <- seq( 1,ny,,n )
-    u  <- c(uv[ x,y,1 ])*f
-    v  <- c(uv[ x,y,2 ])*f
-    xy <- expand.grid(x=x, y=y)
-    image( 1:nx, 1:ny, z, col=zcol, xaxt="n", yaxt="n", xlab="", ylab="" )
+    f <- f*.05*min( max(x), max(y) )
+    
+    px  <- seq( 1,nx,,n )
+    py  <- seq( 1,ny,,n )
+    u  <- c(uv[ px,py,1 ])*f
+    v  <- c(uv[ px,py,2 ])*f
+    
+    xy <- expand.grid(x=x[px], y=y[py])
+    image( x,y,z, col=zcol, xaxt="n", yaxt="n", xlab="", ylab="" )
     with( xy, arrows( x0=x-u/2, y0=y-v/2, x1=x+u/2, y1=y+v/2, length=length, col=col, code=code ) )
 }

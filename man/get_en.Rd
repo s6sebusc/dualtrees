@@ -4,7 +4,7 @@
 \alias{get_en}
 \title{get energy from the dualtree transform}
 \usage{
-get_en(pyr, correct = "fast")
+get_en(pyr, correct = "fast", N = ncol(pyr))
 }
 \arguments{
 \item{pyr}{array of \code{ J x nx x ny x 6 } complex wavelet coefficients, output of \code{dtcwt(..., dec=FALSE)}}
