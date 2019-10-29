@@ -22,7 +22,7 @@ dtcwt(mat, fb1 = near_sym_b, fb2 = qshift_b, J = NULL, dec = TRUE,
 
 \item{verbose}{if TRUE, the function tells you which level it is working on}
 
-\item{boundaries}{how to handle the internal boundary conditions of the convolutions, has no effect if mode="direct"}
+\item{boundaries}{how to handle the internal boundary conditions of the convolutions ("periodic" or "periodic"), has no effect if mode="direct"}
 }
 \value{
 if dec=TRUE a list of complex coefficient fields, otherwise a complex J * Nx * Ny * 6 array.

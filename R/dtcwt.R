@@ -8,7 +8,7 @@
 #' @param dec whether or not the decimated transform is desired
 #' @param mode how to perform the convolutions, either "direct" (default if dec=TRUE) or "FFT" (default if dec=FALSE)
 #' @param verbose if TRUE, the function tells you which level it is working on
-#' @param boundaries how to handle the internal boundary conditions of the convolutions, has no effect if mode="direct"
+#' @param boundaries how to handle the internal boundary conditions of the convolutions ("periodic" or "periodic"), has no effect if mode="direct"
 #' @return if dec=TRUE a list of complex coefficient fields, otherwise a complex J * Nx * Ny * 6 array.
 #' 
 #' @details This is the 2D complex dualtree wavelet transform as described by Selesnick et al 2005. It consists of four discerete wavelet transform trees, generated from two filter banks a and b by applying one set of filters to the rows and the same ot the other to the columns. 
