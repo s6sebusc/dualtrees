@@ -2,10 +2,27 @@
 % Please edit documentation in R/spectra.R
 \name{dt2cen}
 \alias{dt2cen}
-\title{get the centre of the DT-spectrum}
+\title{centre of the DT-spectrum}
 \usage{
 dt2cen(pyr)
 }
+\arguments{
+\item{pyr}{a \code{J x nx x ny x 6} array of spectral energies, the output of \code{fld2dt}}
+}
+\value{
+a \code{nx x ny x 3} array where the third dimension denotes degree of anisotropy, angle and central scale, respectively.
+}
 \description{
-get the centre of the DT-spectrum
+calculate the centre of mass of the local spectra in hexagonal geometry
+}
+\details{
+Each of the \code{J x 6} spectral values is assigned a coordinate in 3D space with \code{x(d,j)=cos(60*(d-1))}, \code{y(d,j)=sin(60*(d-1))},\code{z(d,j)=j+1}. Then the centre of mass in this space is calculated, the spectral values being the masses at each vertex. The x- and y-cooridnate are then transform into a radius \code{rho=sqrt(x^2+y^2)} and and angle \code{phi=15+0.5*atan2(y,x)}. \code{rho} measures the degree of anisotropy at each pixel, \code{phi} the orientation of edges in the image, and the third coordinate, \code{z}, the central scale.
+}
+\note{
+Since the centre of mass is not defined for negative mass, any values below zero are removed at this point.
+}
+\examples{
+dt <- fld2dt(blossom)
+ce <- dt2cen(dt)
+image( ce[,,3], col=gray.colors(32, 0, 1) )
 }

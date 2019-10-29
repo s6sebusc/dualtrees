@@ -20,6 +20,9 @@ my_conv(mat, fil, dec = TRUE, mode = "direct", odd = FALSE,
 
 \item{how}{to handle the boundaries, does nothing if \code{mode="FFT"}}
 }
+\value{
+a matrix with as many columns and either the same (\code{dec=FALSE}) or half (\code{dec=TRUE}) the number of rows as mat
+}
 \description{
 This function convolves the columns of a matrix mat with a filter fil.
 }

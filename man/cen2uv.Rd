@@ -2,10 +2,28 @@
 % Please edit documentation in R/spectra.R
 \name{cen2uv}
 \alias{cen2uv}
-\title{transform angle and anisotropy into vector components for plotting}
+\title{centre to vector}
 \usage{
 cen2uv(cen)
 }
+\arguments{
+\item{cen}{an \code{nx x ny x 3} array, the output of \code{dt2cen}}
+}
+\value{
+an \code{nx x ny x 2} array, the two matrices representing the u- and v-component of the vector field.
+}
 \description{
-transform angle and anisotropy into vector components for plotting
+transforms the angle and radius component of the spectral centre into vector components for visualization
+}
+\details{
+The resulting vector field represents the degree of anisotropy and dominant direction, averaged over all scales. In principle, large and small edges might compensate one another, but the result typically looks as one would intuitively expect.
+}
+\examples{
+dt <- fld2dt(blossom)
+ce <- dt2cen(dt)
+uv <- cen2uv(ce)
+uvplot( uv, z=blossom )
+}
+\seealso{
+\code{\link{dt2cen}}, \code{\link{uvplot}}
 }

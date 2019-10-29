@@ -1,23 +1,37 @@
-#' Padded boundary conditions
+#' Various boundary conditions for the 2D wavelet transform.
+#' @param x a real matrix
+#' @param N the number of rows of the desired output
+#' @param Ny the number of columns of the desired output, defaults to N
+#' @param value the value with which the picture is padded by \code{pad}
+#' @return an object of class \code{bc_field}
+#' @details \code{pad} pads the fields with a constant value on all sides, be careful what you pick here. \code{put_in_mirror} reflects the input at all edges (with repeated end samples), \code{period_bc} simply repeats the input periodically. In any case, you can retrieve the initial area via bc$res[ bc$px, bc$py ]. 
+#' @examples
+#' bc <- pad( boys, N=300 )
+#' image( bc$res, col=grey.colors(32) )
+#' print( range( bc$res[ bc$px, bc$py ] - boys ) )
+#' @name boundaries
+NULL
+
+#' @rdname boundaries
 #' @export
-make_square <- function( picture, N, Ny = N , value=min(picture, na.rm=TRUE) ){
+pad <- function( x, N, Ny = N , value=min(x, na.rm=TRUE) ){
     
-    nx <- nrow(picture)
-    ny <- ncol(picture)
+    nx <- nrow(x)
+    ny <- ncol(x)
     if( nx > N | ny > Ny ) stop( "give me a bigger square" )
     
     px <- 1:nx + ceiling( (N - nx)/2 ) 
     py <- 1:ny + ceiling( (Ny - ny)/2 ) 
     
     res <- array( dim=c(N,Ny), data=value )
-    res[ px, py ] <- picture
+    res[ px, py ] <- x
     
     l  <- list( res=res, px=px, py=py )
     class( l ) <- "bc_field"
     return( l )
 }
 
-#' Reflective boundary conditions
+#' @rdname boundaries
 #' @export
 put_in_mirror <- function( x, N, Ny=N ){
     x  <- as.matrix(x)
@@ -48,7 +62,7 @@ put_in_mirror <- function( x, N, Ny=N ){
 
 }
 
-#' Periodic boundary conditions
+#' @rdname boundaries
 #' @export
 period_bc <- function( x, N, Ny=N ){
     x  <- as.matrix( x )

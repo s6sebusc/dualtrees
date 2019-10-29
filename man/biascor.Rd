@@ -6,6 +6,17 @@
 \usage{
 biascor(en, a)
 }
+\arguments{
+\item{en}{\code{ J x nx x ny x 6 } array of squared wavelet coefficients}
+
+\item{a}{bias correction matrix}
+}
+\value{
+an array of the same dimensions as en
+}
 \description{
-spectral bias correction, implemented in FORTRAN
+Unfold scale and direction into a vector and multiply by A at each grid point
+}
+\note{
+this step can introduce negative values into the spctrum which have no intuitive interpretation in terms of energy and need to be dealt with.
 }

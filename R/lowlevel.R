@@ -1,13 +1,3 @@
-#' Transform data from the four trees to six fields of complex coefficients.
-#'
-#' This function takes the four combinations of high- and low passes from the four trees (ab, ba, aa, bb) and re-arranges them into the six directional complex daughter wavelets.
-#' @param q a list of wavelet coefficients named LoaHia, LobHib, HiaLoa, ...
-#' @return a complex array of size nx, ny, 6
-#' @keywords drudenfuss
-#' @export
-#' @examples
-#' q2c( q )
-
 q2c <- function( q ){
     comp <- with( q,{
         res <- array( dim=c( dim( LoaHia ), 6 ) , data=NA )
@@ -22,15 +12,6 @@ q2c <- function( q ){
     return( comp )
 }
 
-#' Transform six fields of complex coefficients back into four trees.
-#'
-#' This function takes the the six directional complex daughter wavelet coefficients and re-constructs the three combinations of high- and low passes from the four trees (ab, ba, aa, bb).
-#' @param comp complex array of dimnesions nx, ny, 6
-#' @return a list of low- and high-pass components from the four trees, names LoaHia, LobHib, etc.
-#' @keywords drudenfuss
-#' @export
-#' @examples
-#' c2q( comp )
 c2q <- function( comp ){
     ra <- Re( comp ) / sqrt(2)
     rb <- Im( comp ) / sqrt(2)
@@ -51,8 +32,6 @@ c2q <- function( comp ){
     return( q )
 }
 
-#' delete every second row of a matrix
-#' @export
 decimate <- function( mat, odd=FALSE, dec=TRUE ){
     # if dec = FALSE, this does straight nothing :D
     # odd =TRUE/FALSE determines which samples are kept
@@ -66,8 +45,6 @@ decimate <- function( mat, odd=FALSE, dec=TRUE ){
     return( mat )
 }
 
-#' add rows with zeroes to a matrix
-#' @export
 upsample <- function( mat, odd=TRUE ){
     mat <- as.matrix( mat )
     res <- matrix( nrow=2*nrow(mat), ncol=ncol(mat), data=0 )
@@ -75,8 +52,6 @@ upsample <- function( mat, odd=TRUE ){
     return( res )
 }
 
-#' shift a matrix forward or backward by one row
-#' @export
 shift1 <- function( x, forward=TRUE ){
     x <- as.matrix( x )
     if( forward ){
@@ -89,8 +64,6 @@ shift1 <- function( x, forward=TRUE ){
 }
 
 
-#' insert holes into a filter?
-#' @export
 holes <- function( fil, second=TRUE ){
     res <- rbind( fil, rep( 0, length(fil) ) ) 
     # add a zero at the other end to keep the wavelet symmetrical!

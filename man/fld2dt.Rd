@@ -2,12 +2,61 @@
 % Please edit documentation in R/spectra.R
 \name{fld2dt}
 \alias{fld2dt}
-\title{transform a field, handle boundary conditions, return energy}
+\title{transform a field into an array of spectral energies}
 \usage{
 fld2dt(fld, Nx = NULL, Ny = NULL, J = NULL, mode = NULL,
   correct = NULL, verbose = FALSE, boundary = "pad",
   fb1 = near_sym_b_bp, fb2 = qshift_b_bp)
 }
+\arguments{
+\item{fld}{a real matrix}
+
+\item{Nx}{size to which the field is padded in x-direction}
+
+\item{Ny}{size to which the field is padded in y-direction}
+
+\item{J}{number of levels for the decomposition}
+
+\item{mode}{how to handle the convolutions}
+
+\item{correct}{how to correct the bias, either "fast", "b" or "b_bp" - any other value results in no correction}
+
+\item{verbose}{whether or not you want the transform to talk to you}
+
+\item{boundary}{how to handle the boundary conditions, either "pad", "mirror" or "periodic"}
+
+\item{fb1}{filter bank for level 1}
+
+\item{fb2}{filter bank for all further levels}
+}
+\value{
+an array of size \code{J x nx x ny x 6} where \code{dim(fld)=c(nx,ny)}
+}
 \description{
-transform a field, handle boundary conditions, return energy
+Handles the transformation itself, boundary conditions and bias correction and returns the unbiased local wavelet spectrum at each grid-point.
+}
+\details{
+The input is blown up to \code{Nx x Ny} and the thrown into \code{dtcwt}. Then the original domain is cut out, the coefficients are squared and the bias is corrected.
+}
+\examples{
+dt <- fld2dt( boys )
+par( mfrow=c(2,2), mar=rep(2,4) )
+for( j in 1:4 ){
+    image( boys, col=gray.colors(128, 0,1), xaxt="n", yaxt="n" )
+    for(d in  1:6) contour( dt[j,,,d], levels=quantile(dt[,,,], .995), 
+                            col=d+1, add=TRUE, lwd=2, drawlabels=FALSE )
+    title( main=paste0("j=",j) )
+} 
+x0  <- seq( .1,.5,,6 )
+y0  <- rep( 0.01,6 )
+a   <- .075
+phi <- seq( 15,,30,6 )*pi/180
+x1  <- x0 + a*cos( phi )
+y1  <- y0 + a*sin( phi )
+rect( min(x0,x1)-.05, min(y0,y1)-.05, 
+      max(x0,x1)+.05, max(y0,y1), col="black", border=NA )
+arrows( x0, y0, x1, y1, length=.05, col=2:7, lwd=2, code=3 )
+}
+\seealso{
+\code{\link{biascor}}
 }

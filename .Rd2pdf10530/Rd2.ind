@@ -1,0 +1,76 @@
+\begin{theindex}
+
+  \item $*$Topic{\relax \fontsize  {12}{14}\selectfont  \ \textbf  {convolution,}}
+    \subitem \texttt  {my\_conv}, \hyperpage{9}
+  \item $*$Topic{\relax \fontsize  {12}{14}\selectfont  \ \textbf  {datasets}}
+    \subitem \texttt  {A}, \hyperpage{1}
+    \subitem \texttt  {blossom}, \hyperpage{2}
+    \subitem \texttt  {boys}, \hyperpage{3}
+    \subitem \texttt  {filterbanks}, \hyperpage{6}
+  \item $*$Topic{\relax \fontsize  {12}{14}\selectfont  \ \textbf  {wavelets}}
+    \subitem \texttt  {my\_conv}, \hyperpage{9}
+
+  \indexspace
+
+  \item \texttt  {A}, \hyperpage{1}
+  \item \texttt  {A\_b} \textit  {(\texttt  {A})}, \hyperpage{1}
+  \item \texttt  {A\_b\_bp} \textit  {(\texttt  {A})}, \hyperpage{1}
+
+  \indexspace
+
+  \item \texttt  {biascor}, \hyperpage{2}, 
+		\hyperindexformat{\textit}{7}
+  \item \texttt  {blossom}, \hyperpage{2}
+  \item \texttt  {boundaries}, \hyperpage{3}
+  \item \texttt  {boys}, \hyperpage{3}
+
+  \indexspace
+
+  \item \texttt  {cen2uv}, \hyperpage{4}
+
+  \indexspace
+
+  \item \texttt  {dt2cen}, \hyperpage{4}
+  \item \texttt  {dtcwt}, \hyperpage{4}, \hyperindexformat{\textit}{9}
+
+  \indexspace
+
+  \item \texttt  {filterbanks}, \hyperpage{6}
+  \item \texttt  {fld2dt}, \hyperpage{7}
+
+  \indexspace
+
+  \item \texttt  {get\_en}, \hyperpage{8}
+
+  \indexspace
+
+  \item \texttt  {idtcwt}, \hyperindexformat{\textit}{5}, \hyperpage{8}
+
+  \indexspace
+
+  \item \texttt  {my\_conv}, \hyperpage{9}
+
+  \indexspace
+
+  \item \texttt  {near\_sym\_b} \textit  {(\texttt  {filterbanks})}, 
+		\hyperpage{6}
+  \item \texttt  {near\_sym\_b\_bp} \textit  {(\texttt  {filterbanks})}, 
+		\hyperpage{6}
+
+  \indexspace
+
+  \item \texttt  {pad} \textit  {(\texttt  {boundaries})}, 
+		\hyperpage{3}
+  \item \texttt  {period\_bc} \textit  {(\texttt  {boundaries})}, 
+		\hyperpage{3}
+  \item \texttt  {put\_in\_mirror} \textit  {(\texttt  {boundaries})}, 
+		\hyperpage{3}
+
+  \indexspace
+
+  \item \texttt  {qshift\_b} \textit  {(\texttt  {filterbanks})}, 
+		\hyperpage{6}
+  \item \texttt  {qshift\_b\_bp} \textit  {(\texttt  {filterbanks})}, 
+		\hyperpage{6}
+
+\end{theindex}

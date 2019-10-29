@@ -1,0 +1,485 @@
+\documentclass[a4paper]{book}
+\usepackage[times,inconsolata,hyper]{Rd}
+\usepackage{makeidx}
+\usepackage[utf8]{inputenc} % @SET ENCODING@
+% \usepackage{graphicx} % @USE GRAPHICX@
+\makeindex{}
+\begin{document}
+\chapter*{}
+\begin{center}
+{\textbf{\huge Package `dualtrees'}}
+\par\bigskip{\large \today}
+\end{center}
+\begin{description}
+\raggedright{}
+\inputencoding{utf8}
+\item[Title]\AsIs{Decimated and Undecimated 2D complex dual-tree wavelet transform}
+\item[Version]\AsIs{0.0.1}
+\item[Description]\AsIs{What the package does (one paragraph).}
+\item[Depends]\AsIs{R (>= 3.5.0)}
+\item[License]\AsIs{What license is it under?}
+\item[Encoding]\AsIs{UTF-8}
+\item[LazyData]\AsIs{true}
+\item[RoxygenNote]\AsIs{6.1.1}
+\end{description}
+\Rdcontents{\R{} topics documented:}
+\inputencoding{utf8}
+\HeaderA{A}{Bias correction matrices}{A}
+\aliasA{A\_b}{A}{A.Rul.b}
+\aliasA{A\_b\_bp}{A}{A.Rul.b.Rul.bp}
+\keyword{datasets}{A}
+%
+\begin{Description}\relax
+Matrices supposedly needed in order to eliminate the effect of "spectral leakage" for the local dtcwt-spectra. Used by biascor( ... ).
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+A_b_bp
+
+A_b
+\end{verbatim}
+\end{Usage}
+%
+\begin{Format}
+A list with entries N512, N256, N128, N64, N32, each containing the bias correction matrix of appropriate size
+\end{Format}
+%
+\begin{Source}\relax
+Calculated by hand via /user/s6sebusc/wavelets\_verification/general\_scripts/Amats\_cdtwt.r
+\end{Source}
+%
+\begin{Examples}
+\begin{ExampleCode}
+image( A_b_bp$N512 )
+\end{ExampleCode}
+\end{Examples}
+\inputencoding{utf8}
+\HeaderA{biascor}{spectral bias correction, implemented in FORTRAN}{biascor}
+%
+\begin{Description}\relax
+spectral bias correction, implemented in FORTRAN
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+biascor(en, a)
+\end{verbatim}
+\end{Usage}
+\inputencoding{utf8}
+\HeaderA{blossom}{Two meteorologists in front of cherry blossoms}{blossom}
+\keyword{datasets}{blossom}
+%
+\begin{Description}\relax
+A very beautiful image.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+blossom
+\end{verbatim}
+\end{Usage}
+%
+\begin{Format}
+A 512x512 matrix of gray-scale values
+\end{Format}
+%
+\begin{Source}\relax
+real life
+\end{Source}
+%
+\begin{Examples}
+\begin{ExampleCode}
+image(blossom, col=gray.colors(32,0,1))
+\end{ExampleCode}
+\end{Examples}
+\inputencoding{utf8}
+\HeaderA{boundaries}{Various boundary conditions for the 2D wavelet transform.}{boundaries}
+\aliasA{pad}{boundaries}{pad}
+\aliasA{period\_bc}{boundaries}{period.Rul.bc}
+\aliasA{put\_in\_mirror}{boundaries}{put.Rul.in.Rul.mirror}
+%
+\begin{Description}\relax
+Various boundary conditions for the 2D wavelet transform.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+pad(x, N, Ny = N, value = min(x, na.rm = TRUE))
+
+put_in_mirror(x, N, Ny = N)
+
+period_bc(x, N, Ny = N)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{x}] a real matrix
+
+\item[\code{N}] the number of rows of the desired output
+
+\item[\code{Ny}] the number of columns of the desired output, defaults to N
+
+\item[\code{value}] the value with which the picture is padded by \code{pad}
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+\code{pad} pads the fields with a constant value on all sides, be careful what you pick here. \code{put\_in\_mirror} reflects the input at all edges (with repeated end samples), \code{period\_bc} simply repeats the input periodically. In any case, you can retrieve the initial area via bc\$res[ bc\$px, bc\$py ].
+\end{Details}
+%
+\begin{Value}
+an object of class \code{bc\_field}
+\end{Value}
+%
+\begin{Examples}
+\begin{ExampleCode}
+bc <- pad( boys, N=300 )
+image( bc$res, col=grey.colors(32) )
+print( range( bc$res[ bc$px, bc$py ] - boys ) )
+\end{ExampleCode}
+\end{Examples}
+\inputencoding{utf8}
+\HeaderA{boys}{Two stromchasers in the sun}{boys}
+\keyword{datasets}{boys}
+%
+\begin{Description}\relax
+Another classic image.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+boys
+\end{verbatim}
+\end{Usage}
+%
+\begin{Format}
+A 256x256 matrix of gray-scale values
+\end{Format}
+%
+\begin{Source}\relax
+real life
+\end{Source}
+%
+\begin{Examples}
+\begin{ExampleCode}
+image(boys, col=gray.colors(32,0,1))
+\end{ExampleCode}
+\end{Examples}
+\inputencoding{utf8}
+\HeaderA{cen2uv}{transform angle and anisotropy into vector components for plotting}{cen2uv}
+%
+\begin{Description}\relax
+transform angle and anisotropy into vector components for plotting
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+cen2uv(cen)
+\end{verbatim}
+\end{Usage}
+\inputencoding{utf8}
+\HeaderA{dt2cen}{get the centre of the DT-spectrum}{dt2cen}
+%
+\begin{Description}\relax
+get the centre of the DT-spectrum
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+dt2cen(pyr)
+\end{verbatim}
+\end{Usage}
+\inputencoding{utf8}
+\HeaderA{dtcwt}{The 2D forward dualtree complex wavelet transform}{dtcwt}
+%
+\begin{Description}\relax
+This function performs the dualtree complex wavelet analysis, either with or withour decimation
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+dtcwt(mat, fb1 = near_sym_b, fb2 = qshift_b, J = NULL, dec = TRUE,
+  mode = NULL, verbose = TRUE, boundaries = "periodic")
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{mat}] the real matrix we wish to transform
+
+\item[\code{fb1}] A list of analysis filter coefficients for the first level. Currently only near\_sym\_b and near\_sym\_b\_bp are implemented
+
+\item[\code{fb2}] A list of analysis filter coefficients for all following levels. Currently only qshift\_b and qshift\_b\_bp are implemented
+
+\item[\code{J}] number of levels for the decomposition. Defaults to \code{log2( min(Nx,Ny) )} in the decimated case and \code{log2( min(Nx,Ny) ) - 3} otherwise
+
+\item[\code{dec}] whether or not the decimated transform is desired
+
+\item[\code{mode}] how to perform the convolutions, either "direct" (default if dec=TRUE) or "FFT" (default if dec=FALSE)
+
+\item[\code{verbose}] if TRUE, the function tells you which level it is working on
+
+\item[\code{boundaries}] how to handle the internal boundary conditions of the convolutions, has no effect if mode="direct"
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+This is the 2D complex dualtree wavelet transform as described by Selesnick et al 2005. It consists of four discerete wavelet transform trees, generated from two filter banks a and b by applying one set of filters to the rows and the same ot the other to the columns. 
+In the decimated case (dec=TRUE), each convolution is followed by a downsampling, meaining that the size of the six coefficient fields is cut in half at each level. In this case, it is supposedly efficient to use direct convolutions (mode="direct"), the boundary conditions of which are steered by the boundaries-argument. If dec=FALSE, direct convolutions may be slow and you should use mode="FFT". In that case, you need to handle the boundary conditions externally  (enter a nice 2\textasciicircum{}N x 2\textasciicircum{}M matrix) and the maximum level J is smaller than log2(N) due to the construction of the filters via an 'algorithme a trous'.
+\end{Details}
+%
+\begin{Value}
+if dec=TRUE a list of complex coefficient fields, otherwise a complex J * Nx * Ny * 6 array.
+\end{Value}
+%
+\begin{Note}\relax
+Periodic and reflective boundaries are both implemented for the decimated case, but only the periodic boundaries are actually invertible at this point.
+\end{Note}
+%
+\begin{References}\relax
+Selesnick, I.W., R.G. Baraniuk, and N.C. Kingsbury. “The Dual-Tree Complex Wavelet Transform.” IEEE Signal Processing Magazine 22, no. 6 (November 2005): 123–51. \url{https://doi.org/10.1109/MSP.2005.1550194}.
+\end{References}
+%
+\begin{SeeAlso}\relax
+\code{\LinkA{idtcwt}{idtcwt}}
+\end{SeeAlso}
+%
+\begin{Examples}
+\begin{ExampleCode}
+dt <- dtcwt( boys )
+par( mfrow=c(2,3), mar=rep(2,4) )
+for( j in 1:6 ){
+    image( boys, col=grey.colors(32,0,1) )
+    contour( Mod( dt[[3]][ ,,j ] )**2, add=TRUE, col="green" )
+} 
+\end{ExampleCode}
+\end{Examples}
+\inputencoding{utf8}
+\HeaderA{filterbanks}{filterbanks for the dtcwt}{filterbanks}
+\aliasA{near\_sym\_b}{filterbanks}{near.Rul.sym.Rul.b}
+\aliasA{near\_sym\_b\_bp}{filterbanks}{near.Rul.sym.Rul.b.Rul.bp}
+\aliasA{qshift\_b}{filterbanks}{qshift.Rul.b}
+\aliasA{qshift\_b\_bp}{filterbanks}{qshift.Rul.b.Rul.bp}
+\keyword{datasets}{filterbanks}
+%
+\begin{Description}\relax
+Some of the filters implemented in the python package dtcwt.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+qshift_b
+
+qshift_b_bp
+
+near_sym_b
+
+near_sym_b_bp
+\end{verbatim}
+\end{Usage}
+%
+\begin{Format}
+A list of high- and low-pass filters for analysis and synthesis
+\end{Format}
+%
+\begin{Details}\relax
+The near-sym filterbanks are biorthogonal wavelets used for the first level, they have 13 and 19 taps. The qshift filterbanks, each with 14 taps, are suitable for all higher levels of the dtcwt, as the a- and b-filters for an approximate Hilbert-pair. The naming convention follows the python-package: 
+\Tabular{ll}{ h: & analysis\\{} g:& synthesis\\{} 0:& low-pass\\{} 1:& high-pass\\{} a,b: & shifted filters}
+The \code{b\_bp}-versions of the filterbanks contain a second high-pass for the diagonal directions, denoted by 2.
+\end{Details}
+%
+\begin{Source}\relax
+dtcwt python package
+\end{Source}
+\inputencoding{utf8}
+\HeaderA{fld2dt}{transform a field into an array of spectral energies}{fld2dt}
+%
+\begin{Description}\relax
+Handles the transformation itself, boundary conditions and bias correction and returns the unbiased local wavelet spectrum at each grid-point.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+fld2dt(fld, Nx = NULL, Ny = NULL, J = NULL, mode = NULL,
+  correct = NULL, verbose = FALSE, boundary = "pad",
+  fb1 = near_sym_b_bp, fb2 = qshift_b_bp)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{fld}] a real matrix
+
+\item[\code{Nx}] size to which the field is padded in x-direction
+
+\item[\code{Ny}] size to which the field is padded in y-direction
+
+\item[\code{J}] number of levels for the decomposition
+
+\item[\code{mode}] how to handle the convolutions
+
+\item[\code{correct}] how to correct the bias, either "fast", "b" or "b\_bp" - any other value results in no correction
+
+\item[\code{verbose}] whether or not you want the transform to talk to you
+
+\item[\code{boundary}] how to handle the boundary conditions, either "pad", "mirror" or "periodic"
+
+\item[\code{fb1}] filter bank for level 1
+
+\item[\code{fb2}] filter bank for all further levels
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+The input is blown up to \code{Nx x Ny} and the thrown into \code{dtcwt}. Then the original domain is cut out, the coefficients are squared and the bias is corrected.
+\end{Details}
+%
+\begin{Value}
+an array of size \code{J x nx x ny x 6} where \code{dim(fld)=c(nx,ny)}
+\end{Value}
+%
+\begin{SeeAlso}\relax
+\code{\LinkA{biascor}{biascor}}
+\end{SeeAlso}
+%
+\begin{Examples}
+\begin{ExampleCode}
+dt <- fld2dt( boys )
+par( mfrow=c(2,2), mar=rep(2,4) )
+for( j in 1:4 ){
+    image( boys, col=gray.colors(128, 0,1), xaxt="n", yaxt="n" )
+    for(d in  1:6) contour( dt[j,,,d], levels=quantile(dt[,,,], .995), 
+                            col=d+1, add=TRUE, lwd=2, drawlabels=FALSE )
+    title( main=paste0("j=",j) )
+} 
+x0  <- seq( .1,.5,,6 )
+y0  <- rep( 0.01,6 )
+a   <- .075
+phi <- seq( 15,,30,6 )*pi/180
+x1  <- x0 + a*cos( phi )
+y1  <- y0 + a*sin( phi )
+rect( min(x0,x1)-.05, min(y0,y1)-.05, 
+      max(x0,x1)+.05, max(y0,y1), col="black", border=NA )
+arrows( x0, y0, x1, y1, length=.05, col=2:7, lwd=2, code=3 )
+\end{ExampleCode}
+\end{Examples}
+\inputencoding{utf8}
+\HeaderA{get\_en}{get energy from the dualtree transform}{get.Rul.en}
+%
+\begin{Description}\relax
+get energy from the dualtree transform
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+get_en(pyr, correct = "fast")
+\end{verbatim}
+\end{Usage}
+\inputencoding{utf8}
+\HeaderA{idtcwt}{The 2D inverse dualtree complex wavelet transform}{idtcwt}
+%
+\begin{Description}\relax
+Reconstructs an image from the pyramid of complex directional wavelet coefficients.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+idtcwt(pyr, fb1 = near_sym_b, fb2 = qshift_b, verbose = TRUE,
+  boundaries = "periodic")
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{pyr}] a list containing arrays of complex coefficients for each level of the decomposition, produced by \code{dtcwt( ..., dec=TRUE )}.
+
+\item[\code{fb1}] the filter bank for the first level
+
+\item[\code{fb2}] the filter bank for all following levels
+
+\item[\code{verbose}] if true, the function will say a few words while doing its thing.
+
+\item[\code{boundaries}] how to handle the boundary conditions, should be the same as for the decomposition.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+This function re-arranges the six complex daughter coefficients back into the four trees, convolves them with the synthesis wavelets and adds everything up to recover an image. For the \code{near\_sym\_b} and \code{qshift\_b} filter banks, this reconstrcution should be basically perfect. In the case of the the \code{b\_bp} filters, non-negligible artifacts appear near +-45° edges.
+\end{Details}
+%
+\begin{Value}
+a real array of size \code{ 2N x 2M } where \code{ dim( pyr[[1]] ) = (M,N,6) }.
+\end{Value}
+%
+\begin{Note}\relax
+At present, only boundaries="periodic" actually works :(
+\end{Note}
+%
+\begin{References}\relax
+Selesnick, I.W., R.G. Baraniuk, and N.C. Kingsbury. “The Dual-Tree Complex Wavelet Transform.” IEEE Signal Processing Magazine 22, no. 6 (November 2005): 123–51. \url{https://doi.org/10.1109/MSP.2005.1550194}.
+\end{References}
+%
+\begin{SeeAlso}\relax
+\code{\LinkA{dtcwt}{dtcwt}}
+\end{SeeAlso}
+%
+\begin{Examples}
+\begin{ExampleCode}
+py <- dtcwt( boys )
+boys_i <- idtcwt( py )
+image( boys - boys_i )
+\end{ExampleCode}
+\end{Examples}
+\inputencoding{utf8}
+\HeaderA{my\_conv}{Column-convolutions}{my.Rul.conv}
+\keyword{convolution,}{my\_conv}
+\keyword{wavelets}{my\_conv}
+%
+\begin{Description}\relax
+This function convolves the columns of a matrix mat with a filter fil.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+my_conv(mat, fil, dec = TRUE, mode = "direct", odd = FALSE,
+  boundaries = "periodic")
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{mat}] a matrix
+
+\item[\code{fil}] the filter to convolve the columns with
+
+\item[\code{dec}] if \code{TRUE}, every second row is discarded after the convolution
+
+\item[\code{mode}] how to actually do the convolutions, must be either \code{"direct"} or \code{"FFT"}
+
+\item[\code{odd}] if \code{TRUE}, the first row is discarded, otherwise the second row is.
+
+\item[\code{how}] to handle the boundaries, does nothing if \code{mode="FFT"}
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+This functions does all of the actual computations inside the wavelet transform. The direct mode uses \code{filter(...)} and can handle any field size you like. It is supposedly faster when the filters are short, i.e., in the decimated case. The FFT-version really only works when the input dimensions are whole powers of two and the filter is not longer than the columns of the matrix.
+\end{Details}
+%
+\begin{Value}
+a matrix with as many columns and either the same (\code{dec=FALSE}) or half (\code{dec=TRUE}) the number of rows as mat
+\end{Value}
+%
+\begin{Examples}
+\begin{ExampleCode}
+dboysdy <- my_conv( boys, c(-1,1), dec=FALSE )
+dboysdx <- t( my_conv( t(boys), c(-1,1), dec=FALSE ) )
+par( mfrow=c(1,2) )
+image( dboysdx, col=gray.colors(32) )
+image( dboysdy, col=gray.colors(32) )
+\end{ExampleCode}
+\end{Examples}
+\printindex{}
+\end{document}

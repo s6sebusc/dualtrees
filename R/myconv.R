@@ -9,6 +9,7 @@
 #' @param how to handle the boundaries, does nothing if \code{mode="FFT"}
 #' @keywords convolution, wavelets
 #' @details This functions does all of the actual computations inside the wavelet transform. The direct mode uses \code{filter(...)} and can handle any field size you like. It is supposedly faster when the filters are short, i.e., in the decimated case. The FFT-version really only works when the input dimensions are whole powers of two and the filter is not longer than the columns of the matrix.
+#' @return a matrix with as many columns and either the same (\code{dec=FALSE}) or half (\code{dec=TRUE}) the number of rows as mat 
 #' @examples
 #' dboysdy <- my_conv( boys, c(-1,1), dec=FALSE )
 #' dboysdx <- t( my_conv( t(boys), c(-1,1), dec=FALSE ) )

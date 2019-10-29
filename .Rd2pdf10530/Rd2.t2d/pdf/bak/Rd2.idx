@@ -1,0 +1,31 @@
+\indexentry{A@\texttt  {A}|hyperpage}{1}
+\indexentry{A\_b@\texttt  {A\_b} \textit  {(\texttt  {A})}|hyperpage}{1}
+\indexentry{A\_b\_bp@\texttt  {A\_b\_bp} \textit  {(\texttt  {A})}|hyperpage}{1}
+\indexentry{$*$Topic{\relax \fontsize  {12}{14}\selectfont  \ \textbf  {datasets}}!A@\texttt  {A}|hyperpage}{1}
+\indexentry{biascor@\texttt  {biascor}|hyperpage}{2}
+\indexentry{blossom@\texttt  {blossom}|hyperpage}{2}
+\indexentry{$*$Topic{\relax \fontsize  {12}{14}\selectfont  \ \textbf  {datasets}}!blossom@\texttt  {blossom}|hyperpage}{2}
+\indexentry{boundaries@\texttt  {boundaries}|hyperpage}{3}
+\indexentry{pad@\texttt  {pad} \textit  {(\texttt  {boundaries})}|hyperpage}{3}
+\indexentry{period\_bc@\texttt  {period\_bc} \textit  {(\texttt  {boundaries})}|hyperpage}{3}
+\indexentry{put\_in\_mirror@\texttt  {put\_in\_mirror} \textit  {(\texttt  {boundaries})}|hyperpage}{3}
+\indexentry{boys@\texttt  {boys}|hyperpage}{3}
+\indexentry{$*$Topic{\relax \fontsize  {12}{14}\selectfont  \ \textbf  {datasets}}!boys@\texttt  {boys}|hyperpage}{3}
+\indexentry{cen2uv@\texttt  {cen2uv}|hyperpage}{4}
+\indexentry{dt2cen@\texttt  {dt2cen}|hyperpage}{4}
+\indexentry{dtcwt@\texttt  {dtcwt}|hyperpage}{4}
+\indexentry{idtcwt@\texttt  {idtcwt}|hyperindexformat{\textit}}{5}
+\indexentry{filterbanks@\texttt  {filterbanks}|hyperpage}{6}
+\indexentry{near\_sym\_b@\texttt  {near\_sym\_b} \textit  {(\texttt  {filterbanks})}|hyperpage}{6}
+\indexentry{near\_sym\_b\_bp@\texttt  {near\_sym\_b\_bp} \textit  {(\texttt  {filterbanks})}|hyperpage}{6}
+\indexentry{qshift\_b@\texttt  {qshift\_b} \textit  {(\texttt  {filterbanks})}|hyperpage}{6}
+\indexentry{qshift\_b\_bp@\texttt  {qshift\_b\_bp} \textit  {(\texttt  {filterbanks})}|hyperpage}{6}
+\indexentry{$*$Topic{\relax \fontsize  {12}{14}\selectfont  \ \textbf  {datasets}}!filterbanks@\texttt  {filterbanks}|hyperpage}{6}
+\indexentry{fld2dt@\texttt  {fld2dt}|hyperpage}{7}
+\indexentry{biascor@\texttt  {biascor}|hyperindexformat{\textit}}{7}
+\indexentry{get\_en@\texttt  {get\_en}|hyperpage}{8}
+\indexentry{idtcwt@\texttt  {idtcwt}|hyperpage}{8}
+\indexentry{dtcwt@\texttt  {dtcwt}|hyperindexformat{\textit}}{9}
+\indexentry{my\_conv@\texttt  {my\_conv}|hyperpage}{9}
+\indexentry{$*$Topic{\relax \fontsize  {12}{14}\selectfont  \ \textbf  {convolution,}}!my\_conv@\texttt  {my\_conv}|hyperpage}{9}
+\indexentry{$*$Topic{\relax \fontsize  {12}{14}\selectfont  \ \textbf  {wavelets}}!my\_conv@\texttt  {my\_conv}|hyperpage}{9}
