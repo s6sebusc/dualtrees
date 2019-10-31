@@ -53,7 +53,7 @@ biascor <- function( en, a ){
 #' @param mode how to handle the convolutions
 #' @param correct how to correct the bias, either "fast", "b" or "b_bp" - any other value results in no correction
 #' @param verbose whether or not you want the transform to talk to you
-#' @param boundary how to handle the boundary conditions, either "pad", "mirror" or "periodic"
+#' @param boundaries how to handle the boundary conditions, either "pad", "mirror" or "periodic"
 #' @param fb1 filter bank for level 1
 #' @param fb2 filter bank for all further levels
 #' @return an array of size \code{J x nx x ny x 6} where \code{dim(fld)=c(nx,ny)}
@@ -79,7 +79,7 @@ biascor <- function( en, a ){
 
 #' @seealso \code{\link{biascor}}
 #' @export
-fld2dt <- function( fld, Nx=NULL, Ny=NULL, J=NULL, mode=NULL, correct=NULL, verbose=FALSE, boundary="pad", fb1=near_sym_b_bp, fb2=qshift_b_bp ){
+fld2dt <- function( fld, Nx=NULL, Ny=NULL, J=NULL, mode=NULL, correct=NULL, verbose=FALSE, boundaries="pad", fb1=near_sym_b_bp, fb2=qshift_b_bp ){
     
     if( is.null( Nx ) ) Nx <- 2**ceiling( log2( max( dim( fld ) )  ) )
     if( is.null( Ny ) ) Ny <- Nx
@@ -92,13 +92,13 @@ fld2dt <- function( fld, Nx=NULL, Ny=NULL, J=NULL, mode=NULL, correct=NULL, verb
         }
     }  
     
-    if( boundary=="mirror" ){
+    if( boundaries=="mirror" ){
         bc  <- put_in_mirror( fld, N=Nx, Ny=Ny )
     }
-    if( boundary=="pad" ){
+    if( boundaries=="pad" ){
         bc  <- pad( fld, N=Nx, Ny=Ny )
     }
-    if( boundary=="periodic" ){
+    if( boundaries=="periodic" ){
         bc  <- period_bc( fld, N=Nx, Ny=Ny )
     }
     fld <- bc$res
@@ -110,6 +110,27 @@ fld2dt <- function( fld, Nx=NULL, Ny=NULL, J=NULL, mode=NULL, correct=NULL, verb
     
     return( res )
 }
+
+#' spatial mean spectrum
+#' 
+#' average the output of fld2dt or dtcwt over space
+#'
+#' @param x either a J x nx x ny x 6 array of energies (output of dtcwt) or a list of complex wavelet coefficients (the output of \code{dtcwt(...,dec=FALSE)})
+#' @return a J x 6 matrix of spatially averaged energies
+#' @note In the undecimated case, the coefficients are not averaged but summed up and then scaled by the area of the first level. This yields a comparable scale as the undecimated case.
+#' @export
+dtmean <- function( x ){
+    if( is.list(x) ){
+        J   <- length(x) - 1
+        res <- array( dim=c(J,6) )
+        f   <- prod( dim( x[[1]] ) )
+        for( j in 1:J ) for( d in 1:6 ) res[ j,d ] <- sum( Mod( x[[j]][,,d] )**2 )/f
+    }else{
+        res <- apply( x, c(1,4), mean, na.rm=TRUE )
+    }
+    return( res )
+}
+
  
 #' centre of the DT-spectrum
 #' 
@@ -154,6 +175,7 @@ dt2cen <- function( pyr ){
 #' @seealso \code{\link{dt2cen}}, \code{\link{uvplot}}
 #' @export
 cen2uv <- function( cen ){
+    if( is.null( dim( cen ) ) ) cen <- array( dim=c(1,1,3), data=cen )
     uv      <- array( dim=c( nrow(cen), ncol(cen), 2 ), data=NA )
     uv[,,1] <- cen[,,1]*cos( cen[,,2]*pi/180 )
     uv[,,2] <- cen[,,1]*sin( cen[,,2]*pi/180 )

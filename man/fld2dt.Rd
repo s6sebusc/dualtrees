@@ -5,7 +5,7 @@
 \title{transform a field into an array of spectral energies}
 \usage{
 fld2dt(fld, Nx = NULL, Ny = NULL, J = NULL, mode = NULL,
-  correct = NULL, verbose = FALSE, boundary = "pad",
+  correct = NULL, verbose = FALSE, boundaries = "pad",
   fb1 = near_sym_b_bp, fb2 = qshift_b_bp)
 }
 \arguments{
@@ -23,7 +23,7 @@ fld2dt(fld, Nx = NULL, Ny = NULL, J = NULL, mode = NULL,
 
 \item{verbose}{whether or not you want the transform to talk to you}
 
-\item{boundary}{how to handle the boundary conditions, either "pad", "mirror" or "periodic"}
+\item{boundaries}{how to handle the boundary conditions, either "pad", "mirror" or "periodic"}
 
 \item{fb1}{filter bank for level 1}
 

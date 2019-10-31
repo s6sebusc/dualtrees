@@ -18,7 +18,7 @@ my_conv(mat, fil, dec = TRUE, mode = "direct", odd = FALSE,
 
 \item{odd}{if \code{TRUE}, the first row is discarded, otherwise the second row is.}
 
-\item{boundaries}{how to handle the boundaries, does nothing if \code{mode="FFT"}}
+\item{boundaries}{how to handle the boundaries, either periodic, reflective or pad. Does nothing if \code{mode="FFT"}}
 }
 \value{
 a matrix with as many columns and either the same (\code{dec=FALSE}) or half (\code{dec=TRUE}) the number of rows as mat
