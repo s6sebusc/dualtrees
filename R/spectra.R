@@ -181,3 +181,39 @@ cen2uv <- function( cen ){
     uv[,,2] <- cen[,,1]*sin( cen[,,2]*pi/180 )
     return( uv )
 }
+
+#' xy <-> cen
+#'
+#' Translate the centre of mass back and forth between polar and cartesian coordinares
+#' @param cen the centre of mass of a wavelet spectrum (rho, phi, z), output of \code{dt2cen}
+#' @param xy the centre of mass in cartesian coordinates (x, y, z), output of cen2xy
+#' @details \code{dt2cen} represents the sepctrum's centre in cylinder coordinates because that is more intuitive than the x-y-z position within the hexagonal geometry. If you want to compare two spectra, it makes more sense to consider their distance in terms of x1-x2, y1-y2 since the difference in angle is only meaningful for reasonably large radii. These functions allow you to translate back and forth between the two coordinate systems. 
+#' @note \code{cen2xy} is not the same thing as \code{cen2uv} !
+#' @seealso \code{\link{dt2cen}}, \code{\link{cen2uv}}
+#' @name cen_xy
+NULL
+
+#' @rdname cen_xy
+#' @export
+cen2xy <- function( cen ){
+    rho <- cen[,,1]
+    phi <- cen[,,2]
+    phi[phi>90] <- phi[phi>90] - 180
+    phi <- 2*(phi - 15 )
+    phi <- phi*pi/180
+    cen[ ,,1 ] <- rho*cos( phi )
+    cen[ ,,2 ] <- rho*sin( phi )
+    return( cen )
+}
+
+#' @rdname cen_xy
+#' @export
+xy2cen <- function( xy ){
+    rho <- sqrt( xy[,,1]**2 + xy[,,2]**2 )
+    phi <- (atan2(xy[, , 2], xy[, , 1]) * 180/pi)/2 + 15
+    phi[phi < 0] <- 180 + phi[phi < 0]
+    xy[ ,,1 ] <- rho
+    xy[ ,,2 ] <- phi
+    return(xy)
+}
+
