@@ -52,6 +52,7 @@ biascor <- function( en, a ){
 #' @param J number of levels for the decomposition
 #' @param mode how to handle the convolutions
 #' @param correct how to correct the bias, either "fast", "b" or "b_bp" - any other value results in no correction
+#' @param rsm number of pixels to be linearly smoothed along each edge before applying the boundary conditions (see \code{\link{smooth_borders}}).
 #' @param verbose whether or not you want the transform to talk to you
 #' @param boundaries how to handle the boundary conditions, either "pad", "mirror" or "periodic"
 #' @param fb1 filter bank for level 1
@@ -79,7 +80,7 @@ biascor <- function( en, a ){
 
 #' @seealso \code{\link{biascor}}
 #' @export
-fld2dt <- function( fld, Nx=NULL, Ny=NULL, J=NULL, mode=NULL, correct=NULL, verbose=FALSE, boundaries="pad", fb1=near_sym_b_bp, fb2=qshift_b_bp ){
+fld2dt <- function( fld, Nx=NULL, Ny=NULL, J=NULL, mode=NULL, correct=NULL, rsm=0, verbose=FALSE, boundaries="pad", fb1=near_sym_b_bp, fb2=qshift_b_bp ){
     
     if( is.null( Nx ) ) Nx <- 2**ceiling( log2( max( dim( fld ) )  ) )
     if( is.null( Ny ) ) Ny <- Nx
@@ -91,6 +92,7 @@ fld2dt <- function( fld, Nx=NULL, Ny=NULL, J=NULL, mode=NULL, correct=NULL, verb
             correct <- "b"
         }
     }  
+    fld <- smooth_borders( fld, rsm )
     
     if( boundaries=="mirror" ){
         bc  <- put_in_mirror( fld, N=Nx, Ny=Ny )
@@ -196,9 +198,10 @@ NULL
 #' @rdname cen_xy
 #' @export
 cen2xy <- function( cen ){
-    rho <- cen[,,1]
-    phi <- cen[,,2]
-    phi[phi>90] <- phi[phi>90] - 180
+    if( is.null( dim( cen ) ) ) cen <- array( dim=c(1,1,length(cen)), data=cen )
+    rho <- cen[,,1,drop=FALSE]
+    phi <- cen[,,2,drop=FALSE]
+    phi[which(phi>90)] <- phi[which(phi>90)] - 180
     phi <- 2*(phi - 15 )
     phi <- phi*pi/180
     cen[ ,,1 ] <- rho*cos( phi )
@@ -209,9 +212,11 @@ cen2xy <- function( cen ){
 #' @rdname cen_xy
 #' @export
 xy2cen <- function( xy ){
-    rho <- sqrt( xy[,,1]**2 + xy[,,2]**2 )
-    phi <- (atan2(xy[, , 2], xy[, , 1]) * 180/pi)/2 + 15
-    phi[phi < 0] <- 180 + phi[phi < 0]
+    if( is.null( dim( xy ) ) ) xy <- array( dim=c(1,1,length(xy)), data=xy )
+
+    rho <- sqrt( xy[,,1,drop=FALSE]**2 + xy[,,2,drop=FALSE]**2 )
+    phi <- (atan2(xy[, , 2,drop=FALSE], xy[, , 1,drop=FALSE]) * 180/pi)/2 + 15
+    phi[which(phi < 0)] <- 180 + phi[which(phi < 0)]
     xy[ ,,1 ] <- rho
     xy[ ,,2 ] <- phi
     return(xy)

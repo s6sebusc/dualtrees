@@ -90,3 +90,29 @@ period_bc <- function( x, N, Ny=N ){
     return( l )
 }
 
+
+#' smoother borders
+#'
+#' let a field decrease linearly towards its edges
+#' @param x a real matrix
+#' @param r a positive integer 
+#' @return a matrix of the same dimensions as x
+#' @details Values within the field are linearly reduced from their original value to the field minimum, starting r pixels away from the edge. This enforces truely periodic boundaries. It may be a good idea to apply this to you input data before doing the wavelet analysis. Consider removing the altered border afterwards ... 
+#' @note r must not be larger than \code{min( dim(x) )/2}.
+#' @examples
+#' image( smooth_borders(blossom, r=64), col=gray.colors(128,0,1) )
+#' @export
+smooth_borders <- function( x, r ){
+    if( r > 0 ){
+        mi <- min( x )
+        x <- x - mi
+        di <- dim( x )
+        if( min(di)/2 < r ) stop( "r is too large" )
+        mask <- array( dim=di, data=0 )
+        mv <- seq( 0,1,,r )
+        for( i in 1:r ) mask[ i:(di[1]-i+1), i:(di[2]-i+1) ] <- mv[i]
+        x <- x*mask + mi
+    }
+    return( x )
+}
+

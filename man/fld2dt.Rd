@@ -5,7 +5,7 @@
 \title{transform a field into an array of spectral energies}
 \usage{
 fld2dt(fld, Nx = NULL, Ny = NULL, J = NULL, mode = NULL,
-  correct = NULL, verbose = FALSE, boundaries = "pad",
+  correct = NULL, rsm = 0, verbose = FALSE, boundaries = "pad",
   fb1 = near_sym_b_bp, fb2 = qshift_b_bp)
 }
 \arguments{
@@ -20,6 +20,8 @@ fld2dt(fld, Nx = NULL, Ny = NULL, J = NULL, mode = NULL,
 \item{mode}{how to handle the convolutions}
 
 \item{correct}{how to correct the bias, either "fast", "b" or "b_bp" - any other value results in no correction}
+
+\item{rsm}{number of pixels to be linearly smoothed along each edge before applying the boundary conditions (see \code{\link{smooth_borders}}).}
 
 \item{verbose}{whether or not you want the transform to talk to you}
 
