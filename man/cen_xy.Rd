@@ -16,7 +16,7 @@ xy2cen(xy)
 \item{xy}{the centre of mass in cartesian coordinates (x, y, z), output of cen2xy}
 }
 \description{
-Translate the centre of mass back and forth between polar and cartesian coordinares
+Translate the centre of mass back and forth between polar and cartesian coordinates
 }
 \details{
 \code{dt2cen} represents the sepctrum's centre in cylinder coordinates because that is more intuitive than the x-y-z position within the hexagonal geometry. If you want to compare two spectra, it makes more sense to consider their distance in terms of x1-x2, y1-y2 since the difference in angle is only meaningful for reasonably large radii. These functions allow you to translate back and forth between the two coordinate systems.

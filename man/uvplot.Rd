@@ -6,10 +6,10 @@
 \usage{
 uvplot(uv, z = NULL, x = NULL, y = NULL, col = "green",
   zcol = gray.colors(32, 0, 1), n = 42, f = 1, code = 0,
-  length = 0.05)
+  length = 0.05, ...)
 }
 \arguments{
-\item{uv}{array of dimension \code{ nx x ny x 2 }, containing the u- and v-component, result of \code{cen2uv}}
+\item{uv}{either an array of dimension \code{ nx x ny x 2 }, containing the u- and v-component, result of \code{cen2uv} or an object of class \code{"dtana"}}
 
 \item{z}{image to show in the background, defaults to the absolute velocity}
 
@@ -24,6 +24,8 @@ uvplot(uv, z = NULL, x = NULL, y = NULL, col = "green",
 \item{code}{determines the type of arrow, passed to \code{arrows()}}
 
 \item{length}{length of the arrowhead in inches, does nothing if \code{code=0}}
+
+\item{...}{further arguments passed to \code{image}}
 }
 \description{
 display the radial and angular component of the spectrum's centre as arrows.

@@ -11,11 +11,29 @@ plot.bc_field <- function( bc, lcol="green", col=gray.colors(32,0,1), lty=2, ...
     lines( bcx, bcy, col=lcol, lty=lty )
 }
 
+#' @export
+plot.dtana <- function( x ){   
+    J <- nrow(x$ms)
+    with( x, {
+    par( mfrow=c(2,3), mar=c(3,3,3,1) )
+    plot( rmi, rhist, type="h", main="histogram of radii" )
+    plot( pmi, phist, type="h", main="histogram of angles" )
+    plot( zmi, zhist, type="h", main="histogram of central scales" )
+    image( 1:J, 1:6, ms, yaxt="n", main="mean spectrum (white = large)" )
+    axis( 2, at=1:6, labels=paste0(seq(15,,30,6),"°") )
+    })
+    if( !is.null(x$uv) ){ 
+        uvplot( x )
+        title( main="direction and anisotropy" )
+        image( x$cen[,,3], xaxt="n", yaxt="n", zlim=c(1,J), main="central scales (white = large)" )
+    }
+}
+
 #' plot centre as vectors
 #' 
 #' display the radial and angular component of the spectrum's centre as arrows.
 #'
-#' @param uv array of dimension \code{ nx x ny x 2 }, containing the u- and v-component, result of \code{cen2uv}
+#' @param uv either an array of dimension \code{ nx x ny x 2 }, containing the u- and v-component, result of \code{cen2uv} or an object of class \code{"dtana"}
 #' @param z image to show in the background, defaults to the absolute velocity
 #' @param col color of the arrows
 #' @param zcol color scale for the image
@@ -23,13 +41,18 @@ plot.bc_field <- function( bc, lcol="green", col=gray.colors(32,0,1), lty=2, ...
 #' @param f factor by which to enlarge the arrows
 #' @param code determines the type of arrow, passed to \code{arrows()}
 #' @param length length of the arrowhead in inches, does nothing if \code{code=0}
+#' @param ... further arguments passed to \code{image}
 #' @details The pivot of the arrows is at the location to which the u- and v-component belong. By default, no arrowhead is displayed (\code{code=0}) since the egdges detcted by the cdtwt have an orientation but no sign (SW and NE are equivalent). The default size of the arrows is such that a 'velocity' of 1 corresponds to 5% of the shorter image side.
 #' @examples
 #' uv <- cen2uv( dt2cen( fld2dt( boys ) ) )
 #' uvplot( uv, z=boys )
 #' @seealso \code{\link{cen2uv}}
 #' @export
-uvplot <- function(  uv, z=NULL , x=NULL, y=NULL, col="green", zcol=gray.colors(32,0,1), n=42, f=1, code=0, length=.05 ){
+uvplot <- function(  uv, z=NULL , x=NULL, y=NULL, col="green", zcol=gray.colors(32,0,1), n=42, f=1, code=0, length=.05, ... ){
+    if( class( uv ) == "dtana" ){
+        z  <- uv$fld
+        uv <- uv$uv
+    }
     nx <- nrow( uv )
     ny <- ncol( uv )
     if( is.null(z) ) z <- sqrt( uv[,,1]**2 + uv[,,2]**2 )
@@ -47,6 +70,6 @@ uvplot <- function(  uv, z=NULL , x=NULL, y=NULL, col="green", zcol=gray.colors(
     v  <- c(uv[ px,py,2 ])*f
     
     xy <- expand.grid(x=x[px], y=y[py])
-    image( x,y,z, col=zcol, xaxt="n", yaxt="n", xlab="", ylab="" )
+    image( x,y,z, col=zcol, xaxt="n", yaxt="n", xlab="", ylab="", ... )
     with( xy, arrows( x0=x-u/2, y0=y-v/2, x1=x+u/2, y1=y+v/2, length=length, col=col, code=code ) )
 }

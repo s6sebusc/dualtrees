@@ -138,8 +138,9 @@ dtmean <- function( x ){
 #' 
 #' calculate the centre of mass of the local spectra in hexagonal geometry
 #' @param pyr a \code{J x nx x ny x 6} array of spectral energies, the output of \code{fld2dt}
+#' @param mask a \code{ nx x ny } array of logical values
 #' @return a \code{nx x ny x 3} array where the third dimension denotes degree of anisotropy, angle and central scale, respectively.
-#' @details Each of the \code{J x 6} spectral values is assigned a coordinate in 3D space with \code{x(d,j)=cos(60*(d-1))}, \code{y(d,j)=sin(60*(d-1))},\code{z(d,j)=j+1}. Then the centre of mass in this space is calculated, the spectral values being the masses at each vertex. The x- and y-cooridnate are then transform into a radius \code{rho=sqrt(x^2+y^2)} and and angle \code{phi=15+0.5*atan2(y,x)}. \code{rho} measures the degree of anisotropy at each pixel, \code{phi} the orientation of edges in the image, and the third coordinate, \code{z}, the central scale.
+#' @details Each of the \code{J x 6} spectral values is assigned a coordinate in 3D space with \code{x(d,j)=cos(60*(d-1))}, \code{y(d,j)=sin(60*(d-1))},\code{z(d,j)=j+1}. Then the centre of mass in this space is calculated, the spectral values being the masses at each vertex. The x- and y-cooridnate are then transform into a radius \code{rho=sqrt(x^2+y^2)} and and angle \code{phi=15+0.5*atan2(y,x)}. \code{rho} measures the degree of anisotropy at each pixel, \code{phi} the orientation of edges in the image, and the third coordinate, \code{z}, the central scale. If a \code{mask} is provided, values where \code{mask==TRUE} are set to \code{NA}.
 #' @note Since the centre of mass is not defined for negative mass, any values below zero are removed at this point. 
 #' @examples
 #' dt <- fld2dt(blossom)
@@ -147,7 +148,7 @@ dtmean <- function( x ){
 #' image( ce[,,3], col=gray.colors(32, 0, 1) )
 #' @useDynLib dualtrees
 #' @export
-dt2cen <- function( pyr ){
+dt2cen <- function( pyr, mask=NULL ){
     if( length( dim(pyr) ) == 2 ) pyr <- array( dim=c( nrow(pyr),1,1,ncol(pyr) ), data=pyr )
     pyr[pyr<0] <- 0
     nx  <- as.integer( dim(pyr)[2] )
@@ -160,6 +161,7 @@ dt2cen <- function( pyr ){
     phi        <- ( atan2( tmp[,,2],tmp[,,1] )*180/pi )/2 + 15
     phi[phi<0] <- 180 + phi[phi<0]
     res[,,2]   <- phi
+    if( !is.null(mask) ) for( i in 1:3 ) res[ ,,i ][mask] <- NA 
     return( res )
 }
 
@@ -186,7 +188,7 @@ cen2uv <- function( cen ){
 
 #' xy <-> cen
 #'
-#' Translate the centre of mass back and forth between polar and cartesian coordinares
+#' Translate the centre of mass back and forth between polar and cartesian coordinates
 #' @param cen the centre of mass of a wavelet spectrum (rho, phi, z), output of \code{dt2cen}
 #' @param xy the centre of mass in cartesian coordinates (x, y, z), output of cen2xy
 #' @details \code{dt2cen} represents the sepctrum's centre in cylinder coordinates because that is more intuitive than the x-y-z position within the hexagonal geometry. If you want to compare two spectra, it makes more sense to consider their distance in terms of x1-x2, y1-y2 since the difference in angle is only meaningful for reasonably large radii. These functions allow you to translate back and forth between the two coordinate systems. 
@@ -220,5 +222,77 @@ xy2cen <- function( xy ){
     xy[ ,,1 ] <- rho
     xy[ ,,2 ] <- phi
     return(xy)
+}
+
+#' complete dual-tree analysis
+#'
+#' Transform an input field and calculate a number of summary quantities like the histograms for the three central components, the mean spectrum and the centre of the mean spectrum.
+#' @param fld a real matrix to be analysed
+#' @param neg_rm whether or not negative values are immediately removed from the local spectra - recommended.
+#' @param rbr,pbr,zbr either the number of breaks to use for the histograms of rho, phi and z or vectors containing those breaks. 
+#' @param mask a boolean matrix telling the function which pixels to remove from the analyis (see \code{\link{dt2cen}})
+#' @param return_fields whether or not you want the function to return the 2D fields of rho, phi, z, u, v and fld itself. 
+#' @param ... further parameters passed to \code{\link{fld2dt}}, including wavelet selection and boundary conditions
+#' @return and object of class \code{"dtana"}, containing the following: 
+#' \tabular{ll}{ \code{ms}    \tab the mean spectrum \cr
+#'               \code{ce}    \tab the centre of mass of \code{ms} (rho, phi, z)\cr
+#'               \code{rhist} \tab the histogram of radii\cr
+#'               \code{phist} \tab the histogram of angles\cr
+#'               \code{zhist} \tab the histogram of central scales\cr
+#'               \code{rmi}   \tab the bin centres for \code{rhist}\cr
+#'               \code{pmi}   \tab the bin centres for \code{phist}\cr
+#'               \code{zmi}   \tab the bin centres for \code{zhist}
+#'             }
+#' if you set \code{ return_fields=TRUE } (the default), the resulf also contains
+#' \tabular{ll}{ \code{cen}    \tab the output of \code{dt2cen} \cr
+#'               \code{dt}     \tab the output of \code{fld2dt}\cr
+#'               \code{uv}     \tab the centre converted into cathesian coordinates\cr
+#'               \code{fld}    \tab the input field
+#'             }
+#' @details The input is transformed via \code{fld2dt( fld, ... )} and the plugged into \code{dt2cen}. The results are summarized as histograms of radii, angles and central scales. By default, 33 equally spaced breaks between the theoretical extrema of these quantities are used. The default breaks for rho and phi are thus always the same, those for z range from 1 to the largest considered scale.
+#' @examples
+#' dta <- dt_analysis( blossom )
+#' plot( dta )
+#' dtb <- dt_analysis( boys, return_fields=FALSE )
+#' X11()
+#' plot( dtb )
+#' @seealso \code{\link{fld2dt}}, \code{\link{dt2cen}}
+#' @export
+dt_analysis <- function( fld, neg.rm=TRUE, rbr=NULL, pbr=NULL, zbr=NULL, mask=NULL, return_fields=TRUE, ... ){
+    
+    dt  <- fld2dt( fld, ... )
+    if( neg.rm ) dt[ dt<0 ] <- 0
+    
+    cen <- dt2cen( dt, mask=mask )
+    ms  <- dtmean( dt )
+    ce  <- c( dt2cen( ms ) )
+    names( ce ) <- c( "rho", "phi", "z" )
+    res <- list( ms=ms, ce=ce )
+    
+    if( is.null(rbr) ) rbr <- 33
+    if( is.null(pbr) ) pbr <- 33
+    if( is.null(zbr) ) zbr <- 33
+    
+    if( length(rbr) == 1 ) rbr <- seq( 0,1,,rbr )
+    if( length(pbr) == 1 ) pbr <- seq( 0,180,,pbr )
+    if( length(zbr) == 1 ) zbr <- seq( 0,nrow(dt),,zbr )
+    
+    res$rhist <- hist( cen[ ,,1 ], breaks=rbr, plot=FALSE )$density
+    res$phist <- hist( cen[ ,,2 ], breaks=pbr, plot=FALSE )$density
+    res$zhist <- hist( cen[ ,,3 ], breaks=zbr, plot=FALSE )$density
+    
+    res$rmi <- ( rbr[-1] + rbr[ -length(rbr) ] )/2
+    res$pmi <- ( pbr[-1] + pbr[ -length(pbr) ] )/2
+    res$zmi <- ( zbr[-1] + zbr[ -length(zbr) ] )/2
+    
+    if( return_fields ){ 
+        res$cen <- cen
+        res$dt  <- dt
+        res$uv  <- cen2uv(cen)
+        res$fld <- fld
+    }
+    
+    class( res ) <- "dtana"
+    return( res )
 }
 
