@@ -4,8 +4,7 @@
 \alias{my_conv}
 \title{Column-convolutions}
 \usage{
-my_conv(mat, fil, dec = TRUE, mode = "direct", odd = FALSE,
-  boundaries = "periodic")
+my_conv(mat, fil, dec = TRUE, odd = FALSE, inverse = FALSE)
 }
 \arguments{
 \item{mat}{a matrix}
@@ -14,11 +13,9 @@ my_conv(mat, fil, dec = TRUE, mode = "direct", odd = FALSE,
 
 \item{dec}{if \code{TRUE}, every second row is discarded after the convolution}
 
-\item{mode}{how to actually do the convolutions, must be either \code{"direct"} or \code{"FFT"}}
-
 \item{odd}{if \code{TRUE}, the first row is discarded, otherwise the second row is.}
 
-\item{boundaries}{how to handle the boundaries, either periodic, reflective or pad. Does nothing if \code{mode="FFT"}}
+\item{inverse}{set \code{TRUE} for the inverse transformation}
 }
 \value{
 a matrix with as many columns and either the same (\code{dec=FALSE}) or half (\code{dec=TRUE}) the number of rows as mat
@@ -27,11 +24,11 @@ a matrix with as many columns and either the same (\code{dec=FALSE}) or half (\c
 This function convolves the columns of a matrix mat with a filter fil.
 }
 \details{
-This functions does all of the actual computations inside the wavelet transform. The direct mode uses \code{filter(...)} and can handle any field size you like. It is supposedly faster when the filters are short, i.e., in the decimated case. The FFT-version really only works when the input dimensions are whole powers of two and the filter is not longer than the columns of the matrix.
+This functions does all of the actual computations inside the wavelet transform via FFT. If dec=TRUE or inverse=TRUE, the filters may be longer than the data. In these cases, the data is periodically extended to exceed the filter size.
 }
 \examples{
-dboysdy <- my_conv( boys, c(-1,1), dec=FALSE )
-dboysdx <- t( my_conv( t(boys), c(-1,1), dec=FALSE ) )
+dboysdy <- my_conv( blossom, c(-1,1), dec=FALSE )
+dboysdx <- t( my_conv( t(blossom), c(-1,1), dec=FALSE ) )
 par( mfrow=c(1,2) )
 image( dboysdx, col=gray.colors(32) )
 image( dboysdy, col=gray.colors(32) )

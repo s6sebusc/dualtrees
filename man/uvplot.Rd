@@ -34,8 +34,8 @@ display the radial and angular component of the spectrum's centre as arrows.
 The pivot of the arrows is at the location to which the u- and v-component belong. By default, no arrowhead is displayed (\code{code=0}) since the egdges detcted by the cdtwt have an orientation but no sign (SW and NE are equivalent). The default size of the arrows is such that a 'velocity' of 1 corresponds to 5% of the shorter image side.
 }
 \examples{
-uv <- cen2uv( dt2cen( fld2dt( boys ) ) )
-uvplot( uv, z=boys )
+uv <- cen2uv( dt2cen( fld2dt( blossom ) ) )
+uvplot( uv, z=blossom )
 }
 \seealso{
 \code{\link{cen2uv}}

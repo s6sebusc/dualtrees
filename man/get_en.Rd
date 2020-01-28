@@ -4,12 +4,12 @@
 \alias{get_en}
 \title{get energy from the dualtree transform}
 \usage{
-get_en(pyr, correct = "fast", N = ncol(pyr))
+get_en(pyr, correct = "none", N = ncol(pyr))
 }
 \arguments{
 \item{pyr}{array of \code{ J x nx x ny x 6 } complex wavelet coefficients, output of \code{dtcwt(..., dec=FALSE)}}
 
-\item{correct}{type of correction, either \code{"b"}, \code{"b_bp"} or \code{"fast"}}
+\item{correct}{type of correction, either \code{"b"} or \code{"b_bp"}, any other value results in no correction at all.}
 }
 \value{
 an array of the same dimensions as \code{pyr}

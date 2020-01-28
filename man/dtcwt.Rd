@@ -5,7 +5,7 @@
 \title{The 2D forward dualtree complex wavelet transform}
 \usage{
 dtcwt(mat, fb1 = near_sym_b, fb2 = qshift_b, J = NULL, dec = TRUE,
-  mode = NULL, verbose = TRUE, boundaries = "periodic")
+  verbose = TRUE)
 }
 \arguments{
 \item{mat}{the real matrix we wish to transform}
@@ -18,11 +18,7 @@ dtcwt(mat, fb1 = near_sym_b, fb2 = qshift_b, J = NULL, dec = TRUE,
 
 \item{dec}{whether or not the decimated transform is desired}
 
-\item{mode}{how to perform the convolutions, either "direct" (default if dec=TRUE) or "FFT" (default if dec=FALSE)}
-
 \item{verbose}{if TRUE, the function tells you which level it is working on}
-
-\item{boundaries}{how to handle the internal boundary conditions of the convolutions ("periodic" or "periodic"), has no effect if mode="direct"}
 }
 \value{
 if dec=TRUE a list of complex coefficient fields, otherwise a complex J * Nx * Ny * 6 array.
@@ -32,16 +28,16 @@ This function performs the dualtree complex wavelet analysis, either with or wit
 }
 \details{
 This is the 2D complex dualtree wavelet transform as described by Selesnick et al 2005. It consists of four discerete wavelet transform trees, generated from two filter banks a and b by applying one set of filters to the rows and the same ot the other to the columns. 
-In the decimated case (dec=TRUE), each convolution is followed by a downsampling, meaining that the size of the six coefficient fields is cut in half at each level. In this case, it is supposedly efficient to use direct convolutions (mode="direct"), the boundary conditions of which are steered by the boundaries-argument. If dec=FALSE, direct convolutions may be slow and you should use mode="FFT". In that case, you need to handle the boundary conditions externally  (enter a nice 2^N x 2^M matrix) and the maximum level J is smaller than log2(N) due to the construction of the filters via an 'algorithme a trous'.
+In the decimated case (dec=TRUE), each convolution is followed by a downsampling, meaining that the size of the six coefficient fields is cut in half at each level.
 }
 \note{
-Periodic and reflective boundaries are both implemented for the decimated case, but only the periodic boundaries are actually invertible at this point.
+The inverse transform only works if the input is of size \code{2^N x 2^N}.
 }
 \examples{
-dt <- dtcwt( boys )
+dt <- dtcwt( blossom )
 par( mfrow=c(2,3), mar=rep(2,4) )
 for( j in 1:6 ){
-    image( boys, col=grey.colors(32,0,1) )
+    image( blossom, col=grey.colors(32,0,1) )
     contour( Mod( dt[[3]][ ,,j ] )**2, add=TRUE, col="green" )
 } 
 }

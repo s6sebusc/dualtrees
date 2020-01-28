@@ -6,21 +6,25 @@
 #' @param fb1 the filter bank for the first level
 #' @param fb2 the filter bank for all following levels
 #' @param verbose if true, the function will say a few words while doing its thing. 
-#' @param boundaries how to handle the boundary conditions, should be the same as for the decomposition.
 #' @return a real array of size \code{ 2N x 2M } where \code{ dim( pyr[[1]] ) = (M,N,6) }.
 #' @details This function re-arranges the six complex daughter coefficients back into the four trees, convolves them with the synthesis wavelets and adds everything up to recover an image. For the \code{near_sym_b} and \code{qshift_b} filter banks, this reconstrcution should be basically perfect. In the case of the the \code{b_bp} filters, non-negligible artifacts appear near +-45° edges. 
-#' @note At present, only boundaries="periodic" actually works :(
+#' @note At present, the inverse transform only works if the input image had dimensions \code{2^N x 2^N}. Sorry.
 #' @seealso \code{\link{dtcwt}}
 #'
 #' @references Selesnick, I.W., R.G. Baraniuk, and N.C. Kingsbury. “The Dual-Tree Complex Wavelet Transform.” IEEE Signal Processing Magazine 22, no. 6 (November 2005): 123–51. \url{https://doi.org/10.1109/MSP.2005.1550194}.
 #' @examples
-#' py <- dtcwt( boys )
-#' boys_i <- idtcwt( py )
-#' image( boys - boys_i )
+#' py <- dtcwt( blossom )
+#' blossom_i <- idtcwt( py )
+#' image( blossom - blossom_i )
 #' @export
-idtcwt <- function( pyr, fb1=near_sym_b, fb2=qshift_b, verbose=TRUE, boundaries="periodic" ){
+idtcwt <- function( pyr, fb1=near_sym_b, fb2=qshift_b, verbose=TRUE ){
 
-    mc <- function( x,y ) return( my_conv( upsample( x ), y, dec=FALSE, boundaries=boundaries ) )
+    nx <- nrow( pyr[[1]] )
+    ny <- ncol( pyr[[1]] )
+
+    if( abs( floor( log2( nx ) ) - log2(nx) ) > 1e-10 | nx!=ny ) stop( "The inverse transform currently only works for squares of size 2^N x 2^N. Sorry." )
+
+    mc <- function( x,y ) return( my_conv( upsample( x ), y, dec=FALSE, inverse=TRUE ) )
 
     mc <- list( a=mc, b=mc )
     
@@ -48,7 +52,7 @@ idtcwt <- function( pyr, fb1=near_sym_b, fb2=qshift_b, verbose=TRUE, boundaries=
             Lo   <- list( a=c( fb1$g0o, 0 ), b=c( fb1$g0o, 0 ) )
             Hi   <- list( a=fb1$g1o, b=fb1$g1o )
             Hi2  <- list( a=fb1$g2o, b=fb1$g2o )
-            mc$b <- function( x, y ) return( my_conv( shift1( upsample( x ), forward=FALSE ),y, dec=FALSE, boundaries=boundaries ) )
+            mc$b <- function( x, y ) return( my_conv( shift1( upsample( x ), forward=FALSE ),y, dec=FALSE, inverse=TRUE ) )
         }
         
         # loop over all combinations (aa,ab,ba,bb) to acces all four trees
@@ -85,5 +89,5 @@ idtcwt <- function( pyr, fb1=near_sym_b, fb2=qshift_b, verbose=TRUE, boundaries=
         }
     }
     res <- res[[1]] + res[[2]] + res[[3]] + res[[4]]
-    return( res )
+    return( Re(res) )
 }

@@ -4,7 +4,7 @@
 \name{blossom}
 \alias{blossom}
 \title{Two meteorologists in front of cherry blossoms}
-\format{A 512x512 matrix of gray-scale values}
+\format{A 256x256 matrix of gray-scale values}
 \source{
 real life
 }
@@ -12,9 +12,9 @@ real life
 blossom
 }
 \description{
-A very beautiful image.
+A photograph of two meteorologists in front of the famous cherry trees in Bonn.
 }
 \examples{
-image(blossom, col=gray.colors(32,0,1))
+image(blossom, col=gray.colors(128,0,1))
 }
 \keyword{datasets}

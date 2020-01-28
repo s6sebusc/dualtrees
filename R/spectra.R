@@ -2,7 +2,7 @@
 #' 
 #' square the wavelet coefficients and apply some form of correction
 #' @param pyr array of \code{ J x nx x ny x 6 } complex wavelet coefficients, output of \code{dtcwt(..., dec=FALSE)}
-#' @param correct type of correction, either \code{"b"}, \code{"b_bp"} or \code{"fast"}
+#' @param correct type of correction, either \code{"b"} or \code{"b_bp"}, any other value results in no correction at all.
 #' @return an array of the same dimensions as \code{pyr}
 #' @details The bias correction matrix should correspond to the filter bank used in the transform. It is computed by brute force for the so-called auto-correlation wavelets, for more details, see Nelson et al 2017 and Eckley et al 2010.
 #' @references Eckley, Idris A., Guy P. Nason, and Robert L. Treloar. “Locally Stationary Wavelet Fields with Application to the Modelling and Analysis of Image Texture: Modelling and Analysis of Image Texture.” Journal of the Royal Statistical Society: Series C (Applied Statistics), June 21, 2010, no-no. \url{https://doi.org/10.1111/j.1467-9876.2009.00721.x}.
@@ -11,11 +11,8 @@
 #'
 #' @seealso \code{\link{A}}
 #' @export
-get_en <- function( pyr, correct="fast", N=ncol( pyr ) ){
+get_en <- function( pyr, correct="none", N=ncol( pyr ) ){
     pyr <- Mod( pyr )**2
-    if( correct=="fast" ){
-        for( j in 1:nrow( pyr ) ) pyr[j,,,] <- pyr[j,,,]/(2**j)
-    }
     if( correct=="b_bp" ){
         pyr <- biascor( pyr, A_b_bp[[ paste0( "N", N ) ]] )
     }
@@ -35,6 +32,7 @@ get_en <- function( pyr, correct="fast", N=ncol( pyr ) ){
 #' @useDynLib dualtrees
 #' @export
 biascor <- function( en, a ){
+    if( is.null(a) ) stop( "The bias correction matrix you need does not exist." )
     nx <- as.integer( dim(en)[2] )
     ny <- as.integer( dim(en)[3] )
     nl <- as.integer( dim(en)[1] )
@@ -50,8 +48,7 @@ biascor <- function( en, a ){
 #' @param Nx size to which the field is padded in x-direction
 #' @param Ny size to which the field is padded in y-direction
 #' @param J number of levels for the decomposition
-#' @param mode how to handle the convolutions
-#' @param correct how to correct the bias, either "fast", "b" or "b_bp" - any other value results in no correction
+#' @param correct how to correct the bias, either "b" or "b_bp" - any other value results in no correction
 #' @param rsm number of pixels to be linearly smoothed along each edge before applying the boundary conditions (see \code{\link{smooth_borders}}).
 #' @param verbose whether or not you want the transform to talk to you
 #' @param boundaries how to handle the boundary conditions, either "pad", "mirror" or "periodic"
@@ -60,10 +57,10 @@ biascor <- function( en, a ){
 #' @return an array of size \code{J x nx x ny x 6} where \code{dim(fld)=c(nx,ny)}
 #' @details The input is blown up to \code{Nx x Ny} and the thrown into \code{dtcwt}. Then the original domain is cut out, the coefficients are squared and the bias is corrected.
 #' @examples
-#' dt <- fld2dt( boys )
+#' dt <- fld2dt( blossom )
 #' par( mfrow=c(2,2), mar=rep(2,4) )
 #' for( j in 1:4 ){
-#'     image( boys, col=gray.colors(128, 0,1), xaxt="n", yaxt="n" )
+#'     image( blossom, col=gray.colors(128, 0,1), xaxt="n", yaxt="n" )
 #'     for(d in  1:6) contour( dt[j,,,d], levels=quantile(dt[,,,], .995), 
 #'                             col=d+1, add=TRUE, lwd=2, drawlabels=FALSE )
 #'     title( main=paste0("j=",j) )
@@ -80,7 +77,7 @@ biascor <- function( en, a ){
 
 #' @seealso \code{\link{biascor}}
 #' @export
-fld2dt <- function( fld, Nx=NULL, Ny=NULL, J=NULL, mode=NULL, correct=NULL, rsm=0, verbose=FALSE, boundaries="pad", fb1=near_sym_b_bp, fb2=qshift_b_bp ){
+fld2dt <- function( fld, Nx=NULL, Ny=NULL, J=NULL, correct=NULL, rsm=0, verbose=FALSE, boundaries="pad", fb1=near_sym_b_bp, fb2=qshift_b_bp ){
     
     if( is.null( Nx ) ) Nx <- 2**ceiling( log2( max( dim( fld ) )  ) )
     if( is.null( Ny ) ) Ny <- Nx
@@ -105,7 +102,7 @@ fld2dt <- function( fld, Nx=NULL, Ny=NULL, J=NULL, mode=NULL, correct=NULL, rsm=
     }
     fld <- bc$res
     
-    res <- dtcwt( fld, dec=FALSE, mode=mode, J=J, 
+    res <- dtcwt( fld, dec=FALSE, J=J, 
                   fb1=fb1, fb2=fb2,
                   verbose=verbose )
     res <- get_en( res[ ,bc$px,bc$py, ], correct=correct, N=2**(J+3) )
@@ -253,7 +250,7 @@ xy2cen <- function( xy ){
 #' @examples
 #' dta <- dt_analysis( blossom )
 #' plot( dta )
-#' dtb <- dt_analysis( boys, return_fields=FALSE )
+#' dtb <- dt_analysis( blossom, return_fields=FALSE )
 #' X11()
 #' plot( dtb )
 #' @seealso \code{\link{fld2dt}}, \code{\link{dt2cen}}

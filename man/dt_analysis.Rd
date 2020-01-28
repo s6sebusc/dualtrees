@@ -47,7 +47,7 @@ The input is transformed via \code{fld2dt( fld, ... )} and the plugged into \cod
 \examples{
 dta <- dt_analysis( blossom )
 plot( dta )
-dtb <- dt_analysis( boys, return_fields=FALSE )
+dtb <- dt_analysis( blossom, return_fields=FALSE )
 X11()
 plot( dtb )
 }

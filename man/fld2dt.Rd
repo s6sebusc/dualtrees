@@ -4,8 +4,8 @@
 \alias{fld2dt}
 \title{transform a field into an array of spectral energies}
 \usage{
-fld2dt(fld, Nx = NULL, Ny = NULL, J = NULL, mode = NULL,
-  correct = NULL, rsm = 0, verbose = FALSE, boundaries = "pad",
+fld2dt(fld, Nx = NULL, Ny = NULL, J = NULL, correct = NULL,
+  rsm = 0, verbose = FALSE, boundaries = "pad",
   fb1 = near_sym_b_bp, fb2 = qshift_b_bp)
 }
 \arguments{
@@ -17,9 +17,7 @@ fld2dt(fld, Nx = NULL, Ny = NULL, J = NULL, mode = NULL,
 
 \item{J}{number of levels for the decomposition}
 
-\item{mode}{how to handle the convolutions}
-
-\item{correct}{how to correct the bias, either "fast", "b" or "b_bp" - any other value results in no correction}
+\item{correct}{how to correct the bias, either "b" or "b_bp" - any other value results in no correction}
 
 \item{rsm}{number of pixels to be linearly smoothed along each edge before applying the boundary conditions (see \code{\link{smooth_borders}}).}
 
@@ -41,10 +39,10 @@ Handles the transformation itself, boundary conditions and bias correction and r
 The input is blown up to \code{Nx x Ny} and the thrown into \code{dtcwt}. Then the original domain is cut out, the coefficients are squared and the bias is corrected.
 }
 \examples{
-dt <- fld2dt( boys )
+dt <- fld2dt( blossom )
 par( mfrow=c(2,2), mar=rep(2,4) )
 for( j in 1:4 ){
-    image( boys, col=gray.colors(128, 0,1), xaxt="n", yaxt="n" )
+    image( blossom, col=gray.colors(128, 0,1), xaxt="n", yaxt="n" )
     for(d in  1:6) contour( dt[j,,,d], levels=quantile(dt[,,,], .995), 
                             col=d+1, add=TRUE, lwd=2, drawlabels=FALSE )
     title( main=paste0("j=",j) )
