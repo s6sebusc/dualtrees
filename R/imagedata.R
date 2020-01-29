@@ -1,6 +1,6 @@
 #' Two meteorologists in front of cherry blossoms
 #'
-#' A photograph of two meteorologists in front of the famous cherry trees in Bonn.
+#' A photograph of two meteorologists in front of the famous Japanese cherry trees in Bonn.
 #'
 #' @docType data
 #'
@@ -10,7 +10,7 @@
 #'
 #' @keywords datasets
 #'
-#' @source real life
+#' @source Armin Blanke, used with permission.
 #'
 #' @examples
 #' image(blossom, col=gray.colors(128,0,1))

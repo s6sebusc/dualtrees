@@ -16,7 +16,7 @@ an \code{nx x ny x 2} array, the two matrices representing the u- and v-componen
 transforms the angle and radius component of the spectral centre into vector components for visualization
 }
 \details{
-The resulting vector field represents the degree of anisotropy and dominant direction, averaged over all scales. In principle, large and small edges might compensate one another, but the result typically looks as one would intuitively expect.
+The resulting vector field represents the degree of anisotropy and the dominant direction, averaged over all scales.
 }
 \examples{
 dt <- fld2dt(blossom)

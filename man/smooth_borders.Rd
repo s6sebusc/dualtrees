@@ -18,7 +18,7 @@ a matrix of the same dimensions as x
 let a field decrease linearly towards its edges
 }
 \details{
-Values within the field are linearly reduced from their original value to the field minimum, starting r pixels away from the edge. This enforces truely periodic boundaries. It may be a good idea to apply this to you input data before doing the wavelet analysis. Consider removing the altered border afterwards ...
+Values within the field are linearly reduced from their original value to the field minimum, starting \code{r} pixels away from the edge. This enforces truely periodic boundaries and removes sharp edges.
 }
 \note{
 r must not be larger than \code{min( dim(x) )/2}.

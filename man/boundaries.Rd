@@ -23,13 +23,16 @@ period_bc(x, N, Ny = N)
 \item{value}{the value with which the picture is padded by \code{pad}}
 }
 \value{
-an object of class \code{bc_field}
+a list containing the extended matrix (\code{$res}) and the positions of the original matrix within the extended one (\code{$px} and \code{$py}).
 }
 \description{
-Various boundary conditions for the 2D wavelet transform.
+Extend a matrix to the desired size.
 }
 \details{
-\code{pad} pads the fields with a constant value on all sides, be careful what you pick here. \code{put_in_mirror} reflects the input at all edges (with repeated end samples), \code{period_bc} simply repeats the input periodically. In any case, you can retrieve the initial area via bc$res[ bc$px, bc$py ].
+\code{pad} pads the fields with a constant value on all sides, be careful what you pick here. \code{put_in_mirror} reflects the input at all edges (with repeated end samples), \code{period_bc} simply repeats the input periodically. In any case, you can retrieve the initial area via \code{bc$res[ bc$px, bc$py ]}.
+}
+\note{
+N and Ny must be at least as big as the input.
 }
 \examples{
 bc <- put_in_mirror( blossom, N=300 )

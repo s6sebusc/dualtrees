@@ -4,7 +4,7 @@
 \alias{fld2dt}
 \title{transform a field into an array of spectral energies}
 \usage{
-fld2dt(fld, Nx = NULL, Ny = NULL, J = NULL, correct = NULL,
+fld2dt(fld, Nx = NULL, Ny = NULL, J = NULL, correct = TRUE,
   rsm = 0, verbose = FALSE, boundaries = "pad",
   fb1 = near_sym_b_bp, fb2 = qshift_b_bp)
 }
@@ -17,7 +17,7 @@ fld2dt(fld, Nx = NULL, Ny = NULL, J = NULL, correct = NULL,
 
 \item{J}{number of levels for the decomposition}
 
-\item{correct}{how to correct the bias, either "b" or "b_bp" - any other value results in no correction}
+\item{correct}{logical, whether or not to apply the bias correction}
 
 \item{rsm}{number of pixels to be linearly smoothed along each edge before applying the boundary conditions (see \code{\link{smooth_borders}}).}
 
@@ -36,7 +36,7 @@ an array of size \code{J x nx x ny x 6} where \code{dim(fld)=c(nx,ny)}
 Handles the transformation itself, boundary conditions and bias correction and returns the unbiased local wavelet spectrum at each grid-point.
 }
 \details{
-The input is blown up to \code{Nx x Ny} and the thrown into \code{dtcwt}. Then the original domain is cut out, the coefficients are squared and the bias is corrected.
+The input is blown up to \code{Nx x Ny} and transformed by \code{dtcwt(..., dec=FALSE)}. Then the original domain is cut out, the coefficients are squared and the bias is corrected (for details on the bias, see \code{\link{A}}).
 }
 \examples{
 dt <- fld2dt( blossom )
@@ -57,6 +57,9 @@ rect( min(x0,x1)-.05, min(y0,y1)-.05,
       max(x0,x1)+.05, max(y0,y1), col="black", border=NA )
 arrows( x0, y0, x1, y1, length=.05, col=2:7, lwd=2, code=3 )
 }
+\references{
+Nelson, J. D. B., A. J. Gibberd, C. Nafornita, and N. Kingsbury. 2018. “The Locally Stationary Dual-Tree Complex Wavelet Model.” Statistics and Computing 28 (6): 1139–54. \url{https://doi.org/10.1007/s11222-017-9784-0}.
+}
 \seealso{
-\code{\link{biascor}}
+\code{\link{A}}
 }

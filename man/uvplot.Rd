@@ -5,13 +5,14 @@
 \title{plot centre as vectors}
 \usage{
 uvplot(uv, z = NULL, x = NULL, y = NULL, col = "green",
-  zcol = gray.colors(32, 0, 1), n = 42, f = 1, code = 0,
-  length = 0.05, ...)
+  zcol = gray.colors(32, 0, 1), n = 42, f = 1, length = 0.05, ...)
 }
 \arguments{
-\item{uv}{either an array of dimension \code{ nx x ny x 2 }, containing the u- and v-component, result of \code{cen2uv} or an object of class \code{"dtana"}}
+\item{uv}{an array of dimension \code{ nx x ny x 2 }, containing the u- and v-component, result of \code{cen2uv}}
 
-\item{z}{image to show in the background, defaults to the absolute velocity}
+\item{z}{image to show in the background, defaults to \code{sqrt(x^2+y^2)}}
+
+\item{x, y}{optional x- and y-coordinates for the plot, must match the dimensions of \code{z}}
 
 \item{col}{color of the arrows}
 
@@ -21,9 +22,7 @@ uvplot(uv, z = NULL, x = NULL, y = NULL, col = "green",
 
 \item{f}{factor by which to enlarge the arrows}
 
-\item{code}{determines the type of arrow, passed to \code{arrows()}}
-
-\item{length}{length of the arrowhead in inches, does nothing if \code{code=0}}
+\item{length}{length of the arrowhead in inches}
 
 \item{...}{further arguments passed to \code{image}}
 }
@@ -31,7 +30,7 @@ uvplot(uv, z = NULL, x = NULL, y = NULL, col = "green",
 display the radial and angular component of the spectrum's centre as arrows.
 }
 \details{
-The pivot of the arrows is at the location to which the u- and v-component belong. By default, no arrowhead is displayed (\code{code=0}) since the egdges detcted by the cdtwt have an orientation but no sign (SW and NE are equivalent). The default size of the arrows is such that a 'velocity' of 1 corresponds to 5% of the shorter image side.
+The pivot of the arrows is at the location to which the u- and v-component belong. No arrowhead is displayed since the egdges detcted by the cdtwt have an orientation but no sign. The default size of the arrows is such that a 'velocity' of 1 corresponds to 5\% of the shorter image side.
 }
 \examples{
 uv <- cen2uv( dt2cen( fld2dt( blossom ) ) )

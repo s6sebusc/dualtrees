@@ -1,8 +1,9 @@
 Package: dualtrees
-Title: Decimated and Undecimated 2D complex dual-tree wavelet transform
+Title: Decimated and undecimated 2D complex dual-tree wavelet transform
 Version: 0.0.1
 Authors@R: person("Sebastian", "Buschow", email = "s6sebusc@uni-bonn.de", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Maintainer: Sebastian Buschow <s6sebusc@uni-bonn.de>
+Description: An implementation of the decimated two-dimensional complex dual-tree wavelet transform as described in Kingsbury (1999): Image processing with complex wavelets and Selesnick et al. (2005): The Dual-Tree Complex Wavelet Transform. Also includes the undecimated version and spectral bias correction described in Nelson et al (2018): The locally stationary dual-tree complex wavelet model. The code is partly based on the dtcwt Python library.
 Depends: R (>= 3.5.0)
 License: What license is it under?
 Encoding: UTF-8

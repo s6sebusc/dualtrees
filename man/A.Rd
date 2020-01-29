@@ -6,9 +6,9 @@
 \alias{A_b_bp}
 \alias{A_b}
 \title{Bias correction matrices}
-\format{A list with entries N512, N256, N128, N64, N32, each containing the bias correction matrix of appropriate size}
+\format{A list with entries N1024, N512, N256, N128, N64, N32, each containing the bias correction matrix of appropriate size.}
 \source{
-Calculated by hand via /user/s6sebusc/wavelets_verification/general_scripts/Amats_cdtwt.r
+Calculated by brute force.
 }
 \usage{
 A_b_bp
@@ -16,9 +16,15 @@ A_b_bp
 A_b
 }
 \description{
-Matrices supposedly needed in order to eliminate the effect of "spectral leakage" for the local dtcwt-spectra. Used by biascor( ... ).
+Matrices needed in order to eliminate the effect of "spectral leakage" for the local dtcwt-spectra.
+}
+\details{
+As descibed in Nelson et al 2018, the squared coefficients of the undecimated dtcwt (the local wavelet spectrum) can be used to obtain an estimate of local correlations in space. This estimator has a bias which mostly consists of an over-emphasis on the largest scales. It can be removed by multiplying each local spectrum with a matrix which depends only on the choice of wavelet and the dimensions of the field.
 }
 \examples{
 image( A_b_bp$N512 )
+}
+\references{
+Nelson, J. D. B., A. J. Gibberd, C. Nafornita, and N. Kingsbury. 2018. “The Locally Stationary Dual-Tree Complex Wavelet Model.” Statistics and Computing 28 (6): 1139–54. \url{https://doi.org/10.1007/s11222-017-9784-0}.
 }
 \keyword{datasets}

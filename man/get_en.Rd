@@ -4,25 +4,23 @@
 \alias{get_en}
 \title{get energy from the dualtree transform}
 \usage{
-get_en(pyr, correct = "none", N = ncol(pyr))
+get_en(dt, correct = "none", N = ncol(dt))
 }
 \arguments{
-\item{pyr}{array of \code{ J x nx x ny x 6 } complex wavelet coefficients, output of \code{dtcwt(..., dec=FALSE)}}
+\item{dt}{array of \code{ J x nx x ny x 6 } complex wavelet coefficients, output of \code{dtcwt(..., dec=FALSE)}}
 
 \item{correct}{type of correction, either \code{"b"} or \code{"b_bp"}, any other value results in no correction at all.}
 }
 \value{
-an array of the same dimensions as \code{pyr}
+an array of the same dimensions as \code{dt}
 }
 \description{
-square the wavelet coefficients and apply some form of correction
+square the wavelet coefficients and apply the bias correction
 }
 \details{
-The bias correction matrix should correspond to the filter bank used in the transform. It is computed by brute force for the so-called auto-correlation wavelets, for more details, see Nelson et al 2017 and Eckley et al 2010.
+The bias correction matrix should correspond to the filter bank used in the transform, for details on the matrices see \code{\link{A}}.
 }
 \references{
-Eckley, Idris A., Guy P. Nason, and Robert L. Treloar. “Locally Stationary Wavelet Fields with Application to the Modelling and Analysis of Image Texture: Modelling and Analysis of Image Texture.” Journal of the Royal Statistical Society: Series C (Applied Statistics), June 21, 2010, no-no. \url{https://doi.org/10.1111/j.1467-9876.2009.00721.x}.
-
 Nelson, J. D. B., A. J. Gibberd, C. Nafornita, and N. Kingsbury. “The Locally Stationary Dual-Tree Complex Wavelet Model.” Statistics and Computing 28, no. 6 (November 2018): 1139–54. \url{https://doi.org/10.1007/s11222-017-9784-0}.
 }
 \seealso{

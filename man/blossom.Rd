@@ -6,13 +6,13 @@
 \title{Two meteorologists in front of cherry blossoms}
 \format{A 256x256 matrix of gray-scale values}
 \source{
-real life
+Armin Blanke, used with permission.
 }
 \usage{
 blossom
 }
 \description{
-A photograph of two meteorologists in front of the famous cherry trees in Bonn.
+A photograph of two meteorologists in front of the famous Japanese cherry trees in Bonn.
 }
 \examples{
 image(blossom, col=gray.colors(128,0,1))

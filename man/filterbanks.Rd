@@ -10,7 +10,7 @@
 \title{filterbanks for the dtcwt}
 \format{A list of high- and low-pass filters for analysis and synthesis}
 \source{
-dtcwt python package
+dtcwt python package (\url{https://github.com/rjw57/dtcwt})
 }
 \usage{
 qshift_b
@@ -25,7 +25,12 @@ near_sym_b_bp
 Some of the filters implemented in the python package dtcwt.
 }
 \details{
-The near-sym filterbanks are biorthogonal wavelets used for the first level, they have 13 and 19 taps. The qshift filterbanks, each with 14 taps, are suitable for all higher levels of the dtcwt, as the a- and b-filters for an approximate Hilbert-pair. The naming convention follows the python-package: \tabular{ll}{ h: \tab analysis\cr g:\tab synthesis\cr 0:\tab low-pass\cr 1:\tab high-pass\cr a,b: \tab shifted filters}
-The \code{b_bp}-versions of the filterbanks contain a second high-pass for the diagonal directions, denoted by 2.
+The near-sym filterbanks are biorthogonal wavelets used for the first level, they have 13 and 19 taps. The qshift filterbanks, each with 14 taps, are suitable for all higher levels of the dtcwt. The a- and b-filters form an approximate Hilbert-pair. The naming convention follows the python-package: \tabular{ll}{ h: \tab analysis\cr g:\tab synthesis\cr 0:\tab low-pass\cr 1:\tab high-pass\cr a,b: \tab shifted filters}
+The \code{b_bp}-versions of the filterbanks contain a second high-pass for the diagonal directions, denoted by 2. They allow for better directional selectivity but prohibit perfect reconstruction.
+}
+\references{
+Selesnick, I.W., R.G. Baraniuk, and N.C. Kingsbury. “The Dual-Tree Complex Wavelet Transform.” IEEE Signal Processing Magazine 22, no. 6 (November 2005): 123–51. \url{https://doi.org/10.1109/MSP.2005.1550194}.
+
+Kingsbury, N. (2006, September). Rotation-invariant local feature matching with complex wavelets. In 2006 14th European Signal Processing Conference (pp. 1-5). IEEE.
 }
 \keyword{datasets}

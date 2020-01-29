@@ -1,10 +1,13 @@
 #' Various boundary conditions for the 2D wavelet transform.
+#'
+#' Extend a matrix to the desired size.
 #' @param x a real matrix
 #' @param N the number of rows of the desired output
 #' @param Ny the number of columns of the desired output, defaults to N
 #' @param value the value with which the picture is padded by \code{pad}
-#' @return an object of class \code{bc_field}
-#' @details \code{pad} pads the fields with a constant value on all sides, be careful what you pick here. \code{put_in_mirror} reflects the input at all edges (with repeated end samples), \code{period_bc} simply repeats the input periodically. In any case, you can retrieve the initial area via bc$res[ bc$px, bc$py ]. 
+#' @return a list containing the extended matrix (\code{$res}) and the positions of the original matrix within the extended one (\code{$px} and \code{$py}). 
+#' @details \code{pad} pads the fields with a constant value on all sides, be careful what you pick here. \code{put_in_mirror} reflects the input at all edges (with repeated end samples), \code{period_bc} simply repeats the input periodically. In any case, you can retrieve the initial area via \code{bc$res[ bc$px, bc$py ]}. 
+#' @note N and Ny must be at least as big as the input.
 #' @examples
 #' bc <- put_in_mirror( blossom, N=300 )
 #' plot( bc )
@@ -18,7 +21,7 @@ pad <- function( x, N, Ny = N , value=min(x, na.rm=TRUE) ){
     
     nx <- nrow(x)
     ny <- ncol(x)
-    if( nx > N | ny > Ny ) stop( "give me a bigger square" )
+    if( nx > N | ny > Ny ) stop( "output dimensions too small" )
     
     px <- 1:nx + ceiling( (N - nx)/2 ) 
     py <- 1:ny + ceiling( (Ny - ny)/2 ) 
@@ -37,6 +40,8 @@ put_in_mirror <- function( x, N, Ny=N ){
     x  <- as.matrix(x)
     nx <- nrow( x )
     ny <- ncol( x )
+    if( nx > N | ny > Ny ) stop( "output dimensions too small" )
+    
     if( nx==N & ny==Ny ){
         px <- 1:N
         py <- 1:Ny
@@ -68,6 +73,8 @@ period_bc <- function( x, N, Ny=N ){
     x  <- as.matrix( x )
     nx <- nrow( x )
     ny <- ncol( x )
+    if( nx > N | ny > Ny ) stop( "output dimensions too small" )
+    
     dx <- floor( (nx-N)/2 )
     dy <- floor( (ny-Ny)/2 )
     x1 <- y1 <- 0
@@ -97,7 +104,7 @@ period_bc <- function( x, N, Ny=N ){
 #' @param x a real matrix
 #' @param r a positive integer 
 #' @return a matrix of the same dimensions as x
-#' @details Values within the field are linearly reduced from their original value to the field minimum, starting r pixels away from the edge. This enforces truely periodic boundaries. It may be a good idea to apply this to you input data before doing the wavelet analysis. Consider removing the altered border afterwards ... 
+#' @details Values within the field are linearly reduced from their original value to the field minimum, starting \code{r} pixels away from the edge. This enforces truely periodic boundaries and removes sharp edges.
 #' @note r must not be larger than \code{min( dim(x) )/2}.
 #' @examples
 #' image( smooth_borders(blossom, r=64), col=gray.colors(128,0,1) )
