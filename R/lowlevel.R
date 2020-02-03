@@ -1,3 +1,5 @@
+utils::globalVariables( c( "A_b", "A_b_bp", "near_sym_b", "near_sym_b_bp", "qshift_b", "qshift_b_bp" ) )
+
 q2c <- function( q ){
     comp <- with( q,{
         res <- array( dim=c( dim( LoaHia ), 6 ) , data=NA )

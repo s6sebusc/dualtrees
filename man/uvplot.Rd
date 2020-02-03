@@ -5,7 +5,8 @@
 \title{plot centre as vectors}
 \usage{
 uvplot(uv, z = NULL, x = NULL, y = NULL, col = "green",
-  zcol = gray.colors(32, 0, 1), n = 42, f = 1, length = 0.05, ...)
+  zcol = grDevices::gray.colors(32, 0, 1), n = 42, f = 1,
+  length = 0.05, ...)
 }
 \arguments{
 \item{uv}{an array of dimension \code{ nx x ny x 2 }, containing the u- and v-component, result of \code{cen2uv}}

@@ -22,14 +22,16 @@
 #' Selesnick, I.W., R.G. Baraniuk, and N.C. Kingsbury. “The Dual-Tree Complex Wavelet Transform.” IEEE Signal Processing Magazine 22, no. 6 (November 2005): 123–51. \url{https://doi.org/10.1109/MSP.2005.1550194}.
 #' @author Nick Kingsbury (canonical MATLAB implementation), Rich Wareham (open source Python implementation, \url{https://github.com/rjw57/dtcwt}), Sebastian Buschow (R port).
 #' @examples
+#' # forward transform
 #' dt <- dtcwt( blossom )
 #' par( mfrow=c(2,3), mar=rep(2,4) )
 #' for( j in 1:6 ){
 #'     image( blossom, col=grey.colors(32,0,1) )
 #'     contour( Mod( dt[[3]][ ,,j ] )**2, add=TRUE, col="green" )
 #' } 
+#' 
+#' # exmaple for the inverse transform
 #' blossom_i <- idtcwt( dt )
-#' X11()
 #' image( blossom - blossom_i )
 #' 
 #' # example for a non-square case

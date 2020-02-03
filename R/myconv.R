@@ -9,8 +9,8 @@ my_conv <- function( mat, fil, dec=TRUE, odd=FALSE, inverse=FALSE ){
     l   <- length(fil)
     lh  <- floor(l/2)
     fil <- c( fil[(lh+1):l], rep( 0, nrow(mat) - l ) , fil[ 1:(lh) ] )
-    fil <- matrix( nrow=nrow(mat), ncol=ncol(mat), data=fft( fil ) )
-    res <- mvfft( mvfft( mat )*fil, inverse=TRUE ) / nrow(mat)
+    fil <- matrix( nrow=nrow(mat), ncol=ncol(mat), data=stats::fft( fil ) )
+    res <- stats::mvfft( stats::mvfft( mat )*fil, inverse=TRUE ) / nrow(mat)
     
     if( dec | inverse ) res <- res[ bc$px, , drop=FALSE ] 
     if( dec ) res <- decimate( res, odd=odd )

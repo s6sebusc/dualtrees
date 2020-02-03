@@ -10,6 +10,8 @@ get_en(dt, correct = "none", N = ncol(dt))
 \item{dt}{array of \code{ J x nx x ny x 6 } complex wavelet coefficients, output of \code{dtcwt(..., dec=FALSE)}}
 
 \item{correct}{type of correction, either \code{"b"} or \code{"b_bp"}, any other value results in no correction at all.}
+
+\item{N}{the smallest whole power of two larger than or equal to the dimensions of the input image, usually just \code{ncol(dt)}}
 }
 \value{
 an array of the same dimensions as \code{dt}

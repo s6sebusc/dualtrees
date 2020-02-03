@@ -40,14 +40,16 @@ In the decimated case (dec=TRUE), each convolution is followed by a downsampling
 At present, the inverse transform only works if the input image had dimensions \code{2^N x 2^N}. You can use \code{\link{boundaries}} to achieve that.
 }
 \examples{
+# forward transform
 dt <- dtcwt( blossom )
 par( mfrow=c(2,3), mar=rep(2,4) )
 for( j in 1:6 ){
     image( blossom, col=grey.colors(32,0,1) )
     contour( Mod( dt[[3]][ ,,j ] )**2, add=TRUE, col="green" )
 } 
+
+# exmaple for the inverse transform
 blossom_i <- idtcwt( dt )
-X11()
 image( blossom - blossom_i )
 
 # example for a non-square case
