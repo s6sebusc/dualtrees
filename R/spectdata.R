@@ -11,7 +11,7 @@
 #'
 #' @details As descibed in Nelson et al 2018, the squared coefficients of the undecimated dtcwt (the local wavelet spectrum) can be used to obtain an estimate of local correlations in space. This estimator has a bias which mostly consists of an over-emphasis on the largest scales. It can be removed by multiplying each local spectrum with a matrix which depends only on the choice of wavelet and the dimensions of the field.
 #' @source Calculated by brute force.
-#' @references Nelson, J. D. B., A. J. Gibberd, C. Nafornita, and N. Kingsbury. 2018. “The Locally Stationary Dual-Tree Complex Wavelet Model.” Statistics and Computing 28 (6): 1139–54. \url{https://doi.org/10.1007/s11222-017-9784-0}.
+#' @references Nelson, J. D. B., A. J. Gibberd, C. Nafornita, and N. Kingsbury (2018) <doi:10.1007/s11222-017-9784-0>.
 #'
 #' @examples
 #' image( A_b_bp$N512 )

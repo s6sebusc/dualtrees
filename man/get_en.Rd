@@ -23,7 +23,7 @@ square the wavelet coefficients and apply the bias correction
 The bias correction matrix should correspond to the filter bank used in the transform, for details on the matrices see \code{\link{A}}.
 }
 \references{
-Nelson, J. D. B., A. J. Gibberd, C. Nafornita, and N. Kingsbury. “The Locally Stationary Dual-Tree Complex Wavelet Model.” Statistics and Computing 28, no. 6 (November 2018): 1139–54. \url{https://doi.org/10.1007/s11222-017-9784-0}.
+Nelson, J. D. B., A. J. Gibberd, C. Nafornita, and N. Kingsbury (2018) <doi:10.1007/s11222-017-9784-0>
 }
 \seealso{
 \code{\link{A}}

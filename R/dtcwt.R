@@ -17,9 +17,8 @@
 #' 
 #' @seealso \code{\link{filterbanks}}, \code{\link{fld2dt}}
 #'
-#' @references Kingsbury, Nick. 1999. “Image Processing with Complex Wavelets.” Edited by B. W. Silverman and J. C. Vassilicos. Philosophical Transactions of the Royal Society of London. Series A: Mathematical, Physical and Engineering Sciences 357 (1760): 2543–60. \url{https://doi.org/10.1098/rsta.1999.0447}.
-#'
-#' Selesnick, I.W., R.G. Baraniuk, and N.C. Kingsbury. “The Dual-Tree Complex Wavelet Transform.” IEEE Signal Processing Magazine 22, no. 6 (November 2005): 123–51. \url{https://doi.org/10.1109/MSP.2005.1550194}.
+#' @references Kingsbury, Nick (1999) <doi:10.1098/rsta.1999.0447>.
+#' Selesnick, I.W., R.G. Baraniuk, and N.C. Kingsbury (2005) <doi:10.1109/MSP.2005.1550194>
 #' @author Nick Kingsbury (canonical MATLAB implementation), Rich Wareham (open source Python implementation, \url{https://github.com/rjw57/dtcwt}), Sebastian Buschow (R port).
 #' @examples
 #' # forward transform

@@ -6,7 +6,7 @@
 #' @param N the smallest whole power of two larger than or equal to the dimensions of the input image, usually just \code{ncol(dt)} 
 #' @return an array of the same dimensions as \code{dt}
 #' @details The bias correction matrix should correspond to the filter bank used in the transform, for details on the matrices see \code{\link{A}}.
-#' @references Nelson, J. D. B., A. J. Gibberd, C. Nafornita, and N. Kingsbury. “The Locally Stationary Dual-Tree Complex Wavelet Model.” Statistics and Computing 28, no. 6 (November 2018): 1139–54. \url{https://doi.org/10.1007/s11222-017-9784-0}.
+#' @references Nelson, J. D. B., A. J. Gibberd, C. Nafornita, and N. Kingsbury (2018) <doi:10.1007/s11222-017-9784-0>
 #'
 #' @seealso \code{\link{A}}
 #' @export
@@ -66,7 +66,7 @@ biascor <- function( en, a ){
 #' rect( min(x0,x1)-.05, min(y0,y1)-.05, 
 #'       max(x0,x1)+.05, max(y0,y1), col="black", border=NA )
 #' arrows( x0, y0, x1, y1, length=.05, col=2:7, lwd=2, code=3 )
-#' @references Nelson, J. D. B., A. J. Gibberd, C. Nafornita, and N. Kingsbury. 2018. “The Locally Stationary Dual-Tree Complex Wavelet Model.” Statistics and Computing 28 (6): 1139–54. \url{https://doi.org/10.1007/s11222-017-9784-0}.
+#' @references Nelson, J. D. B., A. J. Gibberd, C. Nafornita, and N. Kingsbury (2018) <doi:10.1007/s11222-017-9784-0>
 #' @seealso \code{\link{A}}
 #' @export
 fld2dt <- function( fld, Nx=NULL, Ny=NULL, J=NULL, correct=TRUE, rsm=0, verbose=FALSE, boundaries="pad", fb1=near_sym_b_bp, fb2=qshift_b_bp ){

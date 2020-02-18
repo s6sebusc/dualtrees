@@ -29,8 +29,8 @@ The near-sym filterbanks are biorthogonal wavelets used for the first level, the
 The \code{b_bp}-versions of the filterbanks contain a second high-pass for the diagonal directions, denoted by 2. They allow for better directional selectivity but prohibit perfect reconstruction.
 }
 \references{
-Selesnick, I.W., R.G. Baraniuk, and N.C. Kingsbury. “The Dual-Tree Complex Wavelet Transform.” IEEE Signal Processing Magazine 22, no. 6 (November 2005): 123–51. \url{https://doi.org/10.1109/MSP.2005.1550194}.
+Selesnick, I.W., R.G. Baraniuk, and N.C. Kingsbury (2005) <doi:10.1109/MSP.2005.1550194>
 
-Kingsbury, N. (2006, September). Rotation-invariant local feature matching with complex wavelets. In 2006 14th European Signal Processing Conference (pp. 1-5). IEEE.
+Kingsbury, N. (2006) <https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=7071567&isnumber=7065146>
 }
 \keyword{datasets}
