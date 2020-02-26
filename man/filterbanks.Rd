@@ -10,7 +10,7 @@
 \title{filterbanks for the dtcwt}
 \format{A list of high- and low-pass filters for analysis and synthesis}
 \source{
-dtcwt python package (\url{https://github.com/rjw57/dtcwt})
+'dtcwt' python package (\url{https://github.com/rjw57/dtcwt})
 }
 \usage{
 qshift_b

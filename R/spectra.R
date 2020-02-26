@@ -49,6 +49,7 @@ biascor <- function( en, a ){
 #' @return an array of size \code{J x nx x ny x 6} where \code{dim(fld)=c(nx,ny)}
 #' @details The input is blown up to \code{Nx x Ny} and transformed by \code{dtcwt(..., dec=FALSE)}. Then the original domain is cut out, the coefficients are squared and the bias is corrected (for details on the bias, see \code{\link{A}}).
 #' @examples
+#' oldpar <- par( no.readonly=TRUE )
 #' dt <- fld2dt( blossom )
 #' par( mfrow=c(2,2), mar=rep(2,4) )
 #' for( j in 1:4 ){
@@ -66,6 +67,7 @@ biascor <- function( en, a ){
 #' rect( min(x0,x1)-.05, min(y0,y1)-.05, 
 #'       max(x0,x1)+.05, max(y0,y1), col="black", border=NA )
 #' arrows( x0, y0, x1, y1, length=.05, col=2:7, lwd=2, code=3 )
+#' par( oldpar )
 #' @references Nelson, J. D. B., A. J. Gibberd, C. Nafornita, and N. Kingsbury (2018) <doi:10.1007/s11222-017-9784-0>
 #' @seealso \code{\link{A}}
 #' @export

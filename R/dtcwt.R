@@ -10,7 +10,7 @@
 #' @param verbose if TRUE, the function tells you which level it is working on
 #' @return if dec=TRUE a list of complex coefficient fields, otherwise a complex \code{J x Nx x Ny x 6} array.
 #' 
-#' @details This is the 2D complex dualtree wavelet transform as described by Selesnick et al 2005. It consists of four discerete wavelet transform trees, generated from two filter banks a and b by applying one set of filters to the rows and another (or the same) one to the columns. The 12 resulting coefficients are combined into six complex values representing six directions (15°, 45°, 75°, 105°, 135°, 165°). 
+#' @details This is the 2D complex dualtree wavelet transform as described by Selesnick et al. (2005). It consists of four discerete wavelet transform trees, generated from two filter banks a and b by applying one set of filters to the rows and another (or the same) one to the columns. The 12 resulting coefficients are combined into six complex values representing six directions (15°, 45°, 75°, 105°, 135°, 165°). 
 #' In the decimated case (dec=TRUE), each convolution is followed by a downsampling by two, meaining that the size of the six coefficient fields is cut in half at each level. The decimated transform can be reversed to recover the original image. For the \code{near_sym_b} and \code{qshift_b} filter banks, this reconstrcution should be basically perfect. In the case of the the \code{b_bp} filters, non-negligible artifacts appear near +-45° edges. 
 #'
 #' @note At present, the inverse transform only works if the input image had dimensions \code{2^N x 2^N}. You can use \code{\link{boundaries}} to achieve that.
@@ -21,6 +21,7 @@
 #' Selesnick, I.W., R.G. Baraniuk, and N.C. Kingsbury (2005) <doi:10.1109/MSP.2005.1550194>
 #' @author Nick Kingsbury (canonical MATLAB implementation), Rich Wareham (open source Python implementation, \url{https://github.com/rjw57/dtcwt}), Sebastian Buschow (R port).
 #' @examples
+#' oldpar <- par( no.readonly=TRUE )
 #' # forward transform
 #' dt <- dtcwt( blossom )
 #' par( mfrow=c(2,3), mar=rep(2,4) )
@@ -28,7 +29,8 @@
 #'     image( blossom, col=grey.colors(32,0,1) )
 #'     contour( Mod( dt[[3]][ ,,j ] )**2, add=TRUE, col="green" )
 #' } 
-#' 
+#' par( oldpar ) 
+#'
 #' # exmaple for the inverse transform
 #' blossom_i <- idtcwt( dt )
 #' image( blossom - blossom_i )

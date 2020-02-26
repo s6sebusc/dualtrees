@@ -33,13 +33,14 @@ if dec=TRUE a list of complex coefficient fields, otherwise a complex \code{J x 
 These functions perform the dualtree complex wavelet analysis and synthesis, either with or without decimation.
 }
 \details{
-This is the 2D complex dualtree wavelet transform as described by Selesnick et al 2005. It consists of four discerete wavelet transform trees, generated from two filter banks a and b by applying one set of filters to the rows and another (or the same) one to the columns. The 12 resulting coefficients are combined into six complex values representing six directions (15°, 45°, 75°, 105°, 135°, 165°). 
+This is the 2D complex dualtree wavelet transform as described by Selesnick et al. (2005). It consists of four discerete wavelet transform trees, generated from two filter banks a and b by applying one set of filters to the rows and another (or the same) one to the columns. The 12 resulting coefficients are combined into six complex values representing six directions (15°, 45°, 75°, 105°, 135°, 165°). 
 In the decimated case (dec=TRUE), each convolution is followed by a downsampling by two, meaining that the size of the six coefficient fields is cut in half at each level. The decimated transform can be reversed to recover the original image. For the \code{near_sym_b} and \code{qshift_b} filter banks, this reconstrcution should be basically perfect. In the case of the the \code{b_bp} filters, non-negligible artifacts appear near +-45° edges.
 }
 \note{
 At present, the inverse transform only works if the input image had dimensions \code{2^N x 2^N}. You can use \code{\link{boundaries}} to achieve that.
 }
 \examples{
+oldpar <- par( no.readonly=TRUE )
 # forward transform
 dt <- dtcwt( blossom )
 par( mfrow=c(2,3), mar=rep(2,4) )
@@ -47,6 +48,7 @@ for( j in 1:6 ){
     image( blossom, col=grey.colors(32,0,1) )
     contour( Mod( dt[[3]][ ,,j ] )**2, add=TRUE, col="green" )
 } 
+par( oldpar ) 
 
 # exmaple for the inverse transform
 blossom_i <- idtcwt( dt )
