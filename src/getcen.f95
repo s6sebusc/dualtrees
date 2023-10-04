@@ -11,7 +11,7 @@ pi = 4.D0*DATAN(1.D0)
 
 do i = 1,nl
     do j = 1,6
-        ang = pi*60.D0/180.D0*DFLOAT(j-1)
+        ang = pi*60.D0/180.D0*DBLE(j-1)
         a( i,j ) = cos( ang )
         b( i,j ) = sin( ang )
         c( i,j ) = i

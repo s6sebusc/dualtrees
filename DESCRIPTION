@@ -1,6 +1,6 @@
 Package: dualtrees
 Title: Decimated and Undecimated 2D Complex Dual-Tree Wavelet Transform
-Version: 0.1.4
+Version: 0.1.5
 Authors@R: c( person("Sebastian", "Buschow", email = "s6sebusc@uni-bonn.de", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-4750-361X")),
               person("Nick", "Kingsbury", role = c("ctb")),
               person("Rich", "Wareham", role = c("ctb"))

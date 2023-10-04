@@ -1,6 +1,6 @@
 subroutine biascor( sp, a, nx, ny, nl, nd, res )
 
-integer :: nx, ny, nl, nd, i, j, k, l, m 
+integer :: nx, ny, nl, nd, i, j, k, l
 real( 8 ), dimension( nl, nx, ny, nd ) :: sp, res
 real( 8 ), dimension( nd*nl, nd*nl )   :: A
 real( 8 ), dimension( nd*nl )          :: tmp
